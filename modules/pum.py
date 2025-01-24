@@ -9,12 +9,12 @@ def get_pum(cmv: list[int], lcm: list[list[Connectors]]) -> list[list[bool]]:
     for i in range(n):
         for j in range(i):
             # set pum according to operation in lcm
-            if lcm[i,j] == Connectors.ANDD:
+            if lcm[i][j] == Connectors.ANDD:
                 pum[i,j] = cmv[i] and cmv[j]
-            elif lcm[i,j] == Connectors.ORR:
+            elif lcm[i][j] == Connectors.ORR:
                 pum[i,j] = cmv[i] or cmv[j]
             
             # mirror values to other side
-            pum[j,i] = pum[i,j]
+            pum[j][i] = pum[i][j]
 
     return pum
