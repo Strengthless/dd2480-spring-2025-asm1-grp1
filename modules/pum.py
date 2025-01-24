@@ -4,7 +4,7 @@ def get_pum(cmv: list[int], lcm: list[list[Connectors]]) -> list[list[bool]]:
     # create pum matrix with true as default
     assert(len(cmv) == 15)
     n = 15 
-    pum = [[True] * n] * n
+    pum = [[True] * n for _ in range(n)]
 
     # go over matrix (only half because symmetric)
     for i in range(n):
