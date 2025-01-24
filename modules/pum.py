@@ -2,7 +2,8 @@ from modules.types import Connectors
 
 def get_pum(cmv: list[int], lcm: list[list[Connectors]]) -> list[list[bool]]:
     # create pum matrix with true as default
-    n = len(cmv) 
+    assert(len(cmv) == 15)
+    n = 15 
     pum = [[True] * n] * n
 
     # go over matrix (only half because symmetric)
