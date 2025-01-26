@@ -1,8 +1,9 @@
 def get_fuv(pum: list[list[bool]], puv: list[bool]) -> list[bool]:
     # check if inputs have correct size
-    assert(len(pum) == 15)
-    assert(len(pum[0]) == 15)
-    assert(len(puv) == 15)
+    if(len(pum) != 15 or len(pum[0] != 15)):
+        raise AssertionError('Malformed PUM size')
+    if(len(puv) != 15):
+        raise AssertionError('Malformed PUV size')
     
     # initialize fuv with as all False
     fuv = [False] * 15
