@@ -2,7 +2,8 @@ from modules.types import Connectors
 
 def get_pum(cmv: list[int], lcm: list[list[Connectors]]) -> list[list[bool]]:
     # create pum matrix with true as default
-    assert(len(cmv) == 15)
+    if (len(cmv) != 15):
+        raise AssertionError('Malformed CMV size')
     n = 15 
     pum = [[True] * n for _ in range(n)]
 
