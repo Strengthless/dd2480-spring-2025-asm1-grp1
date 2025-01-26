@@ -40,7 +40,7 @@ def parse_input(target_file: str) -> tuple[int, list[Coordinate], Parameters, li
                 x, y = map(float, line_data)
                 points.append(Coordinate(x=x, y=y))
             except:
-                raise ValueError("Coordinates must be floats.")
+                raise TypeError("Coordinates must be floats.")
 
         # Parse parameters
         line_data = file.readline().split()
@@ -52,7 +52,7 @@ def parse_input(target_file: str) -> tuple[int, list[Coordinate], Parameters, li
                 new_params[key] = key_type(data)
             parameters = new_params
         except:
-            raise ValueError("Invalid parameter found. Please check whether they are correctly typed as floats or ints.")
+            raise TypeError("Invalid parameter found. Please check whether they are correctly typed as floats or ints.")
 
         # Parse LCM
         lcm = []
@@ -62,7 +62,7 @@ def parse_input(target_file: str) -> tuple[int, list[Coordinate], Parameters, li
                 raise ValueError("Each LCM row must have 15 connectors.")
             for connector in line_data:
                 if (connector not in Connectors.__members__):
-                    raise ValueError("Invalid connector. Must be one of ANDD, ORR, NOTUSED.")
+                    raise TypeError("Invalid connector. Must be one of ANDD, ORR, NOTUSED.")
             lcm.append(list(map(lambda x: Connectors[x], line_data)))
 
         # Parse PUV
@@ -71,7 +71,7 @@ def parse_input(target_file: str) -> tuple[int, list[Coordinate], Parameters, li
             raise ValueError("PUV count must be 15.")
         for p in line_data:
             if (p not in ['T', 'F']):
-                raise ValueError("PUV values must be either T or F.")
+                raise TypeError("PUV values must be either T or F.")
         puv = list(map(lambda x: x == 'T', line_data))
 
     return num_points, points, parameters, lcm, puv
