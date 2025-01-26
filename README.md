@@ -10,9 +10,11 @@ For more information, please refer to the course [DD2480](https://www.kth.se/stu
 
 ### Prerequisites
 
-You need to have Python3 installed. No external packages are required, as of the time of writing (22/1/2025).
+You need to have Python 3.11 installed, then run `pip3 install -r requirements.txt` to installed the required packages.
 
-### How to run the program
+Note that other Python3 versions might be supported, but this software has only been extensively tested on Python 3.11.
+
+### How to use the program
 
 ```
 python3 main.py --input sample.txt
