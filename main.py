@@ -25,10 +25,10 @@ def parse_input(target_file: str) -> tuple[int, list[Coordinate], Parameters, li
         try: 
             num_points = int(file.readline())
         except:
-            raise ValueError("Number of points must be an integer.")
-        finally:
-            if (num_points < 2 or num_points > 100):
-                raise ValueError("Number of points must be [2, 100].")
+            raise TypeError("Number of points must be an integer.")
+        
+        if (num_points < 2 or num_points > 100):
+            raise ValueError("Number of points must be [2, 100].")
         
         # Parse points
         points = []
