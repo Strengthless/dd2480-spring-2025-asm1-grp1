@@ -15,8 +15,9 @@ You need to have Python3 installed. No external packages are required, as of the
 ### How to run the program
 
 ```
-python3 main.py
-python3 test.py -v
+python3 main.py --input sample.txt
+python3 main.py --input sample.txt --verbose
+python3 test.py --verbose
 ```
 
 ## Project specifications
