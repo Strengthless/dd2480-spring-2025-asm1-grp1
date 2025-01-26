@@ -8,6 +8,8 @@ def get_cmv(num_points: int, points: list[Coordinate], parameters: Parameters) -
 
 def check_lic_10(points, parameters):
     """
+    Function to check if the LIC 10 is satisfied
+
     Inputs:
         points: List[tuple(float, float), ...]
             list of tuples
