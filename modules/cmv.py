@@ -11,7 +11,7 @@ def check_lic_10(points: list[Coordinate], parameters: Parameters):
     Function to check if the LIC 10 is satisfied
 
     Inputs:
-        points: List[dict("x" : floar, "y" : float), ...]
+        points: List[{"x" : float, "y" : float}, ...]
             list of dict
         parameters: (Dict)
             dictionary containing the parameters for LIC and CMW
