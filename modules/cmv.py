@@ -6,13 +6,13 @@ def get_cmv(num_points: int, points: list[Coordinate], parameters: Parameters) -
     # TODO: To be implemented
     return [False] * 15
 
-def check_lic_10(points, parameters):
+def check_lic_10(points: list[Coordinate], parameters: Parameters):
     """
     Function to check if the LIC 10 is satisfied
 
     Inputs:
-        points: List[tuple(float, float), ...]
-            list of tuples
+        points: List[dict("x" : floar, "y" : float), ...]
+            list of dict
         parameters: (Dict)
             dictionary containing the parameters for LIC and CMW
 
@@ -43,8 +43,12 @@ def check_lic_10(points, parameters):
         j = i+e_pts+1
         k = i+e_pts+f_pts+2
 
-        vector_1 = [points[j][0] - points[i][0], points[j][1] - points[i][1]]
-        vector_2 = [points[k][0] - points[i][0], points[k][1] - points[i][1]]
+        coord_1 = points[i]
+        coord_2 = points[j]
+        coord_3 = points[k]
+
+        vector_1 = [coord_2["x"] - coord_1["x"], coord_2["y"] - coord_1["y"]]
+        vector_2 = [coord_3["x"] - coord_1["x"], coord_3["y"] - coord_1["y"]]
 
         calc_area = abs((1/2)*np.cross(vector_1, vector_2))
 

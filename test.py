@@ -29,7 +29,9 @@ class CMVTests(unittest.TestCase):
             "e_pts": 3,
             "f_pts": 4
         }
-        points_1 = [(0,0),(0,0),(0,0),(0,0),(0,0),(0,0),(3,0),(0,0),(0,0),(0,0),(0,0),(3,3)]
+        points_1 = [{'x':0, 'y':0},{'x':0, 'y':0},{'x':0, 'y':0},{'x':0, 'y':0},
+                    {'x':0, 'y':0},{'x':0, 'y':0},{'x':3, 'y':0},{'x':0, 'y':0},
+                    {'x':0, 'y':0},{'x':0, 'y':0},{'x':0, 'y':0},{'x':3, 'y':3}]
         self.assertTrue(check_lic_10(points_1, parameters))
 
     def test_lic_10_should_fail_if_area_lte_area1(self):
@@ -38,12 +40,15 @@ class CMVTests(unittest.TestCase):
             "e_pts": 3,
             "f_pts": 4
         }
-        points_1 = [(0,0),(0,0),(0,0),(0,0),(0,0),(0,0),(3,0),(0,0),(0,0),(0,0),(0,0),(3,3)]
+        points_1 = [{'x':0, 'y':0},{'x':0, 'y':0},{'x':0, 'y':0},{'x':0, 'y':0},
+                    {'x':0, 'y':0},{'x':0, 'y':0},{'x':3, 'y':0},{'x':0, 'y':0},
+                    {'x':0, 'y':0},{'x':0, 'y':0},{'x':0, 'y':0},{'x':3, 'y':3}]
         self.assertTrue(check_lic_10(points_1, parameters))
 
     def test_lic_10_should_raise_error_if_epts_is_invalid(self):
         with self.assertRaises(ValueError):
-            points_1 = [(0,0),(0,0),(0,0),(0,0),(0,0),(0,0)]
+            points_1 = [{'x':0, 'y':0},{'x':0, 'y':0},{'x':0, 'y':0},
+                        {'x':0, 'y':0},{'x':0, 'y':0},{'x':0, 'y':0}]
             parameters = {
             "area1": 2,
             "e_pts": 0,
@@ -53,7 +58,8 @@ class CMVTests(unittest.TestCase):
     
     def test_lic_10_should_raise_error_if_fpts_is_invalid(self):
         with self.assertRaises(ValueError):
-            points_1 = [(0,0),(0,0),(0,0),(0,0),(0,0),(0,0)]
+            points_1 = [{'x':0, 'y':0},{'x':0, 'y':0},{'x':0, 'y':0},
+                        {'x':0, 'y':0},{'x':0, 'y':0},{'x':0, 'y':0}]
             parameters = {
             "area1": 2,
             "e_pts": 3,
@@ -63,7 +69,8 @@ class CMVTests(unittest.TestCase):
 
     def test_lic_10_should_raise_error_if_epts_fpts_and_points_mismatch(self):
         with self.assertRaises(ValueError):
-            points_1 = [(0,0),(0,0),(0,0),(0,0),(0,0),(0,0)]
+            points_1 = [{'x':0, 'y':0},{'x':0, 'y':0},{'x':0, 'y':0},
+                        {'x':0, 'y':0},{'x':0, 'y':0},{'x':0, 'y':0}]
             parameters = {
             "area1": 2,
             "e_pts": 8,
