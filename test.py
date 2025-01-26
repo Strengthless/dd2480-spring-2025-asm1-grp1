@@ -2,6 +2,7 @@ import unittest
 from modules.decide import determine_launch
 from modules.pum import get_pum
 from modules.types import Connectors
+from modules.cmv import *
 
 class DecideTests(unittest.TestCase):
     def test_should_launch_if_fuv_is_all_true(self):
@@ -21,9 +22,61 @@ class DecideTests(unittest.TestCase):
         self.assertEqual(launch, False)
 
 class CMVTests(unittest.TestCase):
-    # TODO: Add actual tests here
-    def test_something(self):
-        self.assertEqual('foo'.upper(), 'FOO')
+
+    def test_lic_10_should_pass_if_area_gt_area1(self):
+        parameters = {
+            "area1": 1,
+            "e_pts": 3,
+            "f_pts": 4
+        }
+        points_1 = [{'x':0, 'y':0},{'x':0, 'y':0},{'x':0, 'y':0},{'x':0, 'y':0},
+                    {'x':0, 'y':0},{'x':0, 'y':0},{'x':3, 'y':0},{'x':0, 'y':0},
+                    {'x':0, 'y':0},{'x':0, 'y':0},{'x':0, 'y':0},{'x':3, 'y':3}]
+        self.assertTrue(check_lic_10(points_1, parameters))
+
+    def test_lic_10_should_fail_if_area_lte_area1(self):
+        parameters = {
+            "area1": 2,
+            "e_pts": 3,
+            "f_pts": 4
+        }
+        points_1 = [{'x':0, 'y':0},{'x':0, 'y':0},{'x':0, 'y':0},{'x':0, 'y':0},
+                    {'x':0, 'y':0},{'x':0, 'y':0},{'x':3, 'y':0},{'x':0, 'y':0},
+                    {'x':0, 'y':0},{'x':0, 'y':0},{'x':0, 'y':0},{'x':3, 'y':3}]
+        self.assertTrue(check_lic_10(points_1, parameters))
+
+    def test_lic_10_should_raise_error_if_epts_is_invalid(self):
+        with self.assertRaises(ValueError):
+            points_1 = [{'x':0, 'y':0},{'x':0, 'y':0},{'x':0, 'y':0},
+                        {'x':0, 'y':0},{'x':0, 'y':0},{'x':0, 'y':0}]
+            parameters = {
+            "area1": 2,
+            "e_pts": 0,
+            "f_pts": 4
+            }   
+            check_lic_10(points_1, parameters)
+    
+    def test_lic_10_should_raise_error_if_fpts_is_invalid(self):
+        with self.assertRaises(ValueError):
+            points_1 = [{'x':0, 'y':0},{'x':0, 'y':0},{'x':0, 'y':0},
+                        {'x':0, 'y':0},{'x':0, 'y':0},{'x':0, 'y':0}]
+            parameters = {
+            "area1": 2,
+            "e_pts": 3,
+            "f_pts": 0
+            }   
+            check_lic_10(points_1, parameters)
+
+    def test_lic_10_should_raise_error_if_epts_fpts_and_points_mismatch(self):
+        with self.assertRaises(ValueError):
+            points_1 = [{'x':0, 'y':0},{'x':0, 'y':0},{'x':0, 'y':0},
+                        {'x':0, 'y':0},{'x':0, 'y':0},{'x':0, 'y':0}]
+            parameters = {
+            "area1": 2,
+            "e_pts": 8,
+            "f_pts": 4
+            }   
+            check_lic_10(points_1, parameters)
 
 class FUVTest(unittest.TestCase):
     # TODO: Add actual tests here
