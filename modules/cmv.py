@@ -89,21 +89,8 @@ def check_lic_10(points: list[Coordinate], parameters: Parameters):
 
     return False
 
-def check_lic_11(points: list[Coordinate], parameters: Parameters):
-    """
-    Function to check if the LIC 11 is satisfied
+def check_lic_11(points: list[Coordinate], parameters: Parameters) -> bool:
 
-    Inputs:
-        points: List[{"x" : float, "y" : float}, ...]
-            list of dict
-        parameters: (Dict)
-            dictionary containing the parameters for LIC and CMW
-
-    Outputs:
-        Boolean 
-            True if the condition is met, False otherwise
-
-    """
     g_pts = parameters["g_pts"]
 
     if len(points) < 3:
@@ -113,10 +100,7 @@ def check_lic_11(points: list[Coordinate], parameters: Parameters):
         raise ValueError
 
     for i in range(len(points)-g_pts-1):
-
-        if points[i+g_pts+1]["x"] - points[i]["x"] < 0:     # If the x-coordinate of the point i+g_pts+1 minus the x-coordinate of the point i is less than 0, the condition is met
-            
-            print(points[i]["x"], points[i+g_pts+1]["x"])
+        if points[i+g_pts+1]["x"] - points[i]["x"] < 0:
             return True
         
     return False
