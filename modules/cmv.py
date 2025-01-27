@@ -1,7 +1,45 @@
+import math
 from modules.types import Coordinate, Parameters
 import numpy as np
 
 # Helper functions
+def check_lic_0(num_points ,points: list[Coordinate], parameters: Parameters):
+    """
+    Function to check if the LIC 0 is satisfied
+
+    Inputs:
+        num_points: int
+        points: List[{"x" : float, "y" : float}, ...]
+            list of dict
+        parameters: (Dict)
+            dictionary containing the parameters for LIC and CMW
+
+    Outputs:
+        Boolean 
+            True if the condition is met, False otherwise
+
+    """
+
+    if (num_points < 2 or parameters['length1'] <= 0):
+        return False
+
+    for i in range(num_points-1):
+        #Point i
+        point_i = points[i]
+        x_point_i = point_i['x']
+        y_point_i = point_i['y']
+
+        #Point i+1 
+        point_i_1 = points[i+1]
+        x_point_i_1 = point_i_1['x']
+        y_point_i_1 = point_i_1['y']
+
+        distance_points = math.sqrt((x_point_i_1 - x_point_i)**2 + (y_point_i_1 - y_point_i)**2)
+
+        if (distance_points > parameters['length1']):
+            return True
+    return False
+  
 def check_clic_1() -> bool:
     # TODO: Update the function signature and implementation
     return False
@@ -112,7 +150,8 @@ def check_lic_14() -> bool:
 # Main function
 def get_cmv(num_points: int, points: list[Coordinate], parameters: Parameters) -> list[bool]:
     return [
-        check_clic_1(),
+        check_lic_0(num_points, points, parameters),
+        check_lic_1(),
         check_lic_2(),
         check_lic_3(),
         check_lic_4(),

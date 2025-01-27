@@ -2,7 +2,7 @@ import unittest
 from main import parse_input
 from modules.decide import determine_launch
 from modules.pum import get_pum
-from modules.types import Connectors
+from modules.types import Connectors, Coordinate, Parameters
 from modules.cmv import *
 from snapshottest import TestCase
 
@@ -68,6 +68,63 @@ class DecideTests(unittest.TestCase):
         self.assertEqual(launch, False)
 
 class CMVTests(unittest.TestCase):
+    def test_lic_0_should_fail_if_no_distance_greater_than_length(self):
+        params = {
+            "length1": 5.3
+        }
+        
+        #Longest distance between points is 5.24
+        points: list[Coordinate] = [
+            {"x": 1.0, "y": 2.0},
+            {"x": 1.5, "y": 4.5},
+            {"x": -1.2, "y": 0.0},
+            ]
+        
+        num_points = 3
+        self.assertFalse(check_lic_0(num_points,points,params))
+
+    def test_lic_0_should_pass_if_point_distance_less_than_length(self):
+        params = {
+            "length1": 5.1
+        }
+        
+        #Longest distance between points is 5.24
+        points: list[Coordinate] = [
+            {"x": 1.0, "y": 2.0},
+            {"x": 1.5, "y": 4.5},
+            {"x": -1.2, "y": 0.0},
+            ]
+        
+        num_points = 3
+        self.assertTrue(check_lic_0(num_points,points,params))
+
+    def test_lic_0_should_fail_if_lenght1_0(self):
+        params = {
+            "length1": 0
+        }
+        
+        #Longest distance between points is 5.24
+        points: list[Coordinate] = [
+            {"x": 1.0, "y": 2.0},
+            {"x": 1.5, "y": 4.5},
+            {"x": -1.2, "y": 0.0},
+            ]
+        
+        num_points = 3
+        self.assertFalse(check_lic_0(num_points,points,params))
+
+    def test_lic_0_should_fail_if_num_points_less_than_2(self):
+        params = {
+            "length1": 0
+        }
+        
+        #Longest distance between points is 5.24
+        points: list[Coordinate] = [
+            {"x": 1.0, "y": 2.0},
+            ]
+        
+        num_points = 1
+        self.assertFalse(check_lic_0(num_points,points,params))
 
     def test_lic_10_should_pass_if_area_gt_area1(self):
         parameters = {
@@ -123,6 +180,7 @@ class CMVTests(unittest.TestCase):
             "f_pts": 4
             }   
             check_lic_10(points_1, parameters)
+
 
 class FUVTest(unittest.TestCase):
     # TODO: Add actual tests here
