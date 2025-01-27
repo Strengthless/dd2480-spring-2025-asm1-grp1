@@ -68,29 +68,12 @@ class DecideTests(unittest.TestCase):
         self.assertEqual(launch, False)
 
 class CMVTests(unittest.TestCase):
-    def test_lic_0_no_distance_greater_than_length(self):
-        params = Parameters(
-            length1=5.3,   # Length in LICs 0, 7, 12
-            radius1=3.0,   # Radius in LICs 1, 8, 13
-            epsilon=0.1,   # Deviation from PI in LICs 2, 9
-            area1=10.0,    # Area in LICs 3, 10, 14
-            q_pts=5,       # No. of consecutive points in LIC 4
-            quads=2,       # No. of quadrants in LIC 4
-            dist=1.0,      # Distance in LIC 6
-            n_pts=2,       # No. of consecutive points in LIC 6
-            k_pts=3,       # No. of int. points in LICs 7, 12
-            a_pts=4,       # No. of int. points in LICs 8, 13
-            b_pts=4,       # No. of int. points in LICs 8, 13 (duplicate key reference in your comment)
-            c_pts=2,       # No. of int. points in LICs 9
-            d_pts=2,       # No. of int. points in LICs 9 (duplicate key reference in your comment)
-            e_pts=6,       # No. of int. points in LICs 10, 14
-            f_pts=6,       # No. of int. points in LICs 10, 14 (duplicate key reference in your comment)
-            g_pts=1,       # No. of int. points in LIC 11
-            length2=15.0,  # Maximum length in LIC 12
-            radius2=10.0,  # Maximum radius in LIC 13
-            area2=25.0     # Maximum area in LIC 14
-            )
+    def test_lic_0_should_fail_if_no_distance_greater_than_length(self):
+        params = {
+            "length1": 5.3
+        }
         
+        #Longest distance between points is 5.24
         points: list[Coordinate] = [
             {"x": 1.0, "y": 2.0},
             {"x": 1.5, "y": 4.5},
@@ -98,6 +81,49 @@ class CMVTests(unittest.TestCase):
             ]
         
         num_points = 3
+        self.assertFalse(check_lic_0(num_points,points,params))
+
+    def test_lic_0_should_pass_if_point_distance_less_than_length(self):
+        params = {
+            "length1": 5.1
+        }
+        
+        #Longest distance between points is 5.24
+        points: list[Coordinate] = [
+            {"x": 1.0, "y": 2.0},
+            {"x": 1.5, "y": 4.5},
+            {"x": -1.2, "y": 0.0},
+            ]
+        
+        num_points = 3
+        self.assertTrue(check_lic_0(num_points,points,params))
+
+    def test_lic_0_should_fail_if_lenght1_0(self):
+        params = {
+            "length1": 0
+        }
+        
+        #Longest distance between points is 5.24
+        points: list[Coordinate] = [
+            {"x": 1.0, "y": 2.0},
+            {"x": 1.5, "y": 4.5},
+            {"x": -1.2, "y": 0.0},
+            ]
+        
+        num_points = 3
+        self.assertFalse(check_lic_0(num_points,points,params))
+
+    def test_lic_0_should_fail_if_num_points_less_than_2(self):
+        params = {
+            "length1": 0
+        }
+        
+        #Longest distance between points is 5.24
+        points: list[Coordinate] = [
+            {"x": 1.0, "y": 2.0},
+            ]
+        
+        num_points = 1
         self.assertFalse(check_lic_0(num_points,points,params))
 
     def test_lic_10_should_pass_if_area_gt_area1(self):

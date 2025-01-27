@@ -7,10 +7,10 @@ def check_lic_0(num_points ,points: list[Coordinate], parameters: Parameters):
     #The LIC evaluates to TRUE if there exists at least one set of two consecutive data points 
     #that are a distance greater than the length, LENGTH1, apart.
 
-    if (num_points < 2 or parameters['length1'] < 0):
+    if (num_points < 2 or parameters['length1'] <= 0):
         return False
 
-    for i in range(len(points)-1):
+    for i in range(num_points-1):
         #Point i
         point_i = points[i]
         x_point_i = point_i['x']
