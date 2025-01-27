@@ -22,8 +22,33 @@ def check_lic_5() -> bool:
     # TODO: Update the function signature and implementation
     return False
 
-def check_lic_6() -> bool:
-    # TODO: Update the function signature and implementation
+def check_lic_6(num_points: int, points: list[Coordinate], parameters: Parameters) -> bool:
+    n_pts = parameters["n_pts"]
+    dist = parameters["dist"]
+
+    if num_points < 3 or not (3 <= n_pts <= num_points) or dist < 0:
+        return False
+
+    for i in range(len(points) - n_pts + 1):
+        stripped_points = points[i:i + n_pts]
+        first_point = np.array([stripped_points[0]["x"], stripped_points[0]["y"]], dtype=float)
+        last_point = np.array([stripped_points[-1]["x"], stripped_points[-1]["y"]], dtype=float)
+
+        if np.array_equal(first_point, last_point):
+            for j in range(1, n_pts):
+                current_point = np.array([stripped_points[j]["x"], stripped_points[j]["y"]], dtype=float)
+                cur_pt_dist_to_pt = np.linalg.norm(first_point - current_point)
+
+                if cur_pt_dist_to_pt > dist:
+                    return True
+            
+        else:
+            for j in range(1, n_pts):
+                current_point = np.array([stripped_points[j]["x"], stripped_points[j]["y"]], dtype=float)
+                cur_pt_dist_to_line = np.abs(np.cross(last_point - first_point, first_point - current_point)) / np.linalg.norm(last_point - first_point)
+
+                if cur_pt_dist_to_line > dist:
+                    return True
     return False
 
 def check_lic_7() -> bool:
@@ -117,7 +142,7 @@ def get_cmv(num_points: int, points: list[Coordinate], parameters: Parameters) -
         check_lic_3(),
         check_lic_4(),
         check_lic_5(),
-        check_lic_6(),
+        check_lic_6(points, parameters),
         check_lic_7(),
         check_lic_8(),
         check_lic_9(),
