@@ -93,8 +93,49 @@ def check_lic_11() -> bool:
     # TODO: Update the function signature and implementation
     return False
 
-def check_lic_12() -> bool:
-    # TODO: Update the function signature and implementation
+def check_lic_12(points: list[Coordinate], parameters: Parameters) -> bool:
+    """
+    Function to check if the LIC 12 is satisfied
+
+    Inputs:
+        points: List[{"x" : float, "y" : float}, ...]
+            list of dict
+        parameters: (Dict)
+            dictionary containing the parameters for LIC and CMW
+
+    Outputs:
+        Boolean 
+            True if the condition is met, False otherwise
+
+    """
+    k_pts = parameters["k_pts"]
+    length1 = parameters["length1"]
+    length2 = parameters["length2"]
+
+    if len(points) < 3:
+        return False
+
+    if (length2 < 0):
+        raise ValueError    
+
+    flag_1 = False
+    flag_2 = False
+
+    for i in range(len(points)-k_pts-1):
+        j = i+k_pts+1
+        coord1 = np.array([points[j]["x"], points[j]["y"]])
+        coord2 = np.array([points[i]["x"], points[i]["y"]])
+        length_calc = np.linalg.norm(coord1 - coord2)   # Calculate the distance between the two points
+
+        if length_calc > length1:
+            flag_1 = True
+        
+        if length_calc < length2:
+            flag_2 = True
+
+        if flag_1 and flag_2:
+            return True
+        
     return False
 
 def check_lic_13() -> bool:

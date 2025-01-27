@@ -78,6 +78,48 @@ class CMVTests(unittest.TestCase):
             }   
             check_lic_10(points_1, parameters)
 
+    def test_lic_12_should_pass_if_length_gt_length1_lt_length2(self):
+        parameters = {
+            "k_pts": 3,
+            "length1": 5,
+            "length2": 3
+        }
+        points_1 = [{'x':0, 'y':0},{'x':0, 'y':0},{'x':0, 'y':0},{'x':0, 'y':6},
+                    {'x':0, 'y':0},{'x':0, 'y':0},{'x':0, 'y':0},{'x':0, 'y':0},
+                    {'x':0, 'y':0},{'x':0, 'y':0},{'x':0, 'y':0},{'x':0, 'y':0}] # True
+        self.assertTrue(check_lic_12(points_1, parameters))
+
+    def test_lic_12_should_fail_if_length_lt_length1_gt_length2(self):
+        parameters = {
+            "k_pts": 3,
+            "length1": 5,
+            "length2": 3
+        }
+        points_1 = [{'x':0, 'y':0},{'x':0, 'y':0},{'x':0, 'y':0},{'x':0, 'y':4},
+                    {'x':0, 'y':0},{'x':3, 'y':0},{'x':0, 'y':0},{'x':0, 'y':0},
+                    {'x':0, 'y':0},{'x':0, 'y':0},{'x':0, 'y':0},{'x':0, 'y':0}] # False
+        self.assertFalse(check_lic_12(points_1, parameters))
+
+    def test_lic_12_should_raise_error_if_lenght2_lt_0(self):
+        with self.assertRaises(ValueError):
+            points_1 = [{'x':0, 'y':0},{'x':0, 'y':0},{'x':0, 'y':0},
+                        {'x':0, 'y':0},{'x':0, 'y':0},{'x':0, 'y':0}]
+            parameters = {
+            "k_pts": 3,
+            "length1": 5,
+            "length2": -1
+            }   
+            check_lic_12(points_1, parameters)
+
+    def test_lic_12_should_fail_if_num_points_lt_3(self):
+        parameters = {
+            "k_pts": 3,
+            "length1": 5,
+            "length2": 3
+        }
+        points_1 = [{'x':0, 'y':0},{'x':0, 'y':0}] # False
+        self.assertFalse(check_lic_12(points_1, parameters))
+        
 class FUVTest(unittest.TestCase):
     # TODO: Add actual tests here
     def test_something(self):
