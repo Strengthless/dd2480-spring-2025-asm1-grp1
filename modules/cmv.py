@@ -1,8 +1,26 @@
+import math
 from modules.types import Coordinate, Parameters
 import numpy as np
 
 
 # Helper functions
+def check_lic_0(num_points, points: list[Coordinate], parameters: Parameters) -> bool:
+    if num_points < 2 or parameters["length1"] <= 0:
+        return False
+
+    for i in range(num_points - 1):
+        point_1 = points[i]
+        point_2 = points[i + 1]
+
+        distance_points = math.sqrt(
+            (point_1["x"] - point_2["x"]) ** 2 + (point_1["y"] - point_2["y"]) ** 2
+        )
+
+        if distance_points > parameters["length1"]:
+            return True
+    return False
+
+
 def check_lic_1() -> bool:
     # TODO: Update the function signature and implementation
     return False
@@ -66,7 +84,6 @@ def check_lic_10(
         raise ValueError("e_pts + f_pts must be less than or equal to num_points - 3")
 
     for i in range(num_points - e_pts - f_pts - 2):
-
         # Calculate the area of the triangle that is defined by the two
         # vectors formed by the point i to the point j and k respectively
         point_i = points[i]
@@ -109,6 +126,7 @@ def get_cmv(
     num_points: int, points: list[Coordinate], parameters: Parameters
 ) -> list[bool]:
     return [
+        check_lic_0(num_points, points, parameters),
         check_lic_1(),
         check_lic_2(),
         check_lic_3(),

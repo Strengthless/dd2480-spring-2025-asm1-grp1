@@ -4,7 +4,7 @@ import unittest.test
 from main import parse_input
 from modules.decide import determine_launch
 from modules.pum import get_pum
-from modules.types import Connectors
+from modules.types import Connectors, Coordinate
 from snapshottest import TestCase
 import modules.cmv as cmv
 
@@ -73,9 +73,8 @@ class DecideTests(unittest.TestCase):
 
 
 class CMVTests(unittest.TestCase):
-
     def setUp(self):
-        self.mock_points_1 = [
+        self.mock_points_1: list[Coordinate] = [
             {"x": 0, "y": 0},
             {"x": 0, "y": 0},
             {"x": 0, "y": 0},
@@ -90,7 +89,7 @@ class CMVTests(unittest.TestCase):
             {"x": 3, "y": 3},
         ]
 
-        self.mock_points_2 = [
+        self.mock_points_2: list[Coordinate] = [
             {"x": 0, "y": 0},
             {"x": 0, "y": 0},
             {"x": 0, "y": 0},
@@ -99,6 +98,45 @@ class CMVTests(unittest.TestCase):
             {"x": 0, "y": 0},
         ]
 
+        # Longest distance between points is 5.24
+        self.mock_points_1: list[Coordinate] = [
+            {"x": 1.0, "y": 2.0},
+            {"x": 1.5, "y": 4.5},
+            {"x": -1.2, "y": 0.0},
+        ]
+
+    # LIC 0 test cases
+    def test_lic_0_should_fail_if_no_distance_greater_than_length1(self):
+        params = {"length1": 5.3}
+        points = self.mock_points_1
+        num_points = len(points)
+
+        self.assertFalse(cmv.check_lic_0(num_points, points, params))
+
+    def test_lic_0_should_pass_if_point_distance_less_than_length1(self):
+        params = {"length1": 5.1}
+        points = self.mock_points_1
+        num_points = len(points)
+
+        self.assertTrue(cmv.check_lic_0(num_points, points, params))
+
+    def test_lic_0_should_fail_if_length1_is_0(self):
+        params = {"length1": 0}
+        points = self.mock_points_1
+        num_points = len(points)
+
+        self.assertFalse(cmv.check_lic_0(num_points, points, params))
+
+    def test_lic_0_should_fail_if_num_points_less_than_2(self):
+        params = {"length1": 0}
+        points: list[Coordinate] = [
+            {"x": 1.0, "y": 2.0},
+        ]
+        num_points = len(points)
+
+        self.assertFalse(cmv.check_lic_0(num_points, points, params))
+
+    # LIC 10 test cases
     def test_lic_10_should_pass_if_area_gt_area1(self):
         parameters = {"area1": 1, "e_pts": 3, "f_pts": 4}
         mock_points = self.mock_points_1
