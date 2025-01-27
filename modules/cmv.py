@@ -31,7 +31,7 @@ def check_lic_5(points: list[Coordinate]) -> bool:
             True if the condition is met, False otherwise
 
     """
-    return any(p2.x - p1.x < 0 for p1, p2 in zip(points, points[1:]))
+    return any(p2["x"] - p1["x"] < 0 for p1, p2 in zip(points, points[1:]))
 
 def check_lic_6() -> bool:
     # TODO: Update the function signature and implementation
