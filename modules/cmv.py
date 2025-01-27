@@ -4,8 +4,21 @@ import numpy as np
 
 # Helper functions
 def check_lic_0(num_points ,points: list[Coordinate], parameters: Parameters):
-    #The LIC evaluates to TRUE if there exists at least one set of two consecutive data points 
-    #that are a distance greater than the length, LENGTH1, apart.
+    """
+    Function to check if the LIC 0 is satisfied
+
+    Inputs:
+        num_points: int
+        points: List[{"x" : float, "y" : float}, ...]
+            list of dict
+        parameters: (Dict)
+            dictionary containing the parameters for LIC and CMW
+
+    Outputs:
+        Boolean 
+            True if the condition is met, False otherwise
+
+    """
 
     if (num_points < 2 or parameters['length1'] <= 0):
         return False
