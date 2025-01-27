@@ -23,6 +23,18 @@ class DecideTests(unittest.TestCase):
 
 class CMVTests(unittest.TestCase):
 
+    def test_lic_5_should_fail_if_points_are_increasingly_far(self):
+        points = [{'x':0, 'y':1},{'x':1, 'y':1},{'x':2, 'y':1},{'x':3, 'y':1}]
+        self.assertFalse(check_lic_5(points), "LIC 5: Points are increasingly far away (x1 > x2)")
+
+    def test_lic_5_should_pass_if_points_are_increasingly_close(self):
+        points = [{'x':3, 'y':1},{'x':2, 'y':1},{'x':1, 'y':1},{'x':0, 'y':1}]
+        self.assertTrue(check_lic_5(points), "LIC 5: Points are increasingly close (x1 < x2)")
+
+    def test_lic_5_should_pass_if_points_are_increasingly_close(self):
+        points = [{'x':1, 'y':1},{'x':1, 'y':1},{'x':1, 'y':1},{'x':1, 'y':1}]
+        self.assertFalse(check_lic_5(points), "LIC 5: Points are the same (x1 = x2)")
+
     def test_lic_10_should_pass_if_area_gt_area1(self):
         parameters = {
             "area1": 1,
