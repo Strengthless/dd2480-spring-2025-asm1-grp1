@@ -171,6 +171,33 @@ class CMVTests(unittest.TestCase):
             cmv.check_lic_10(num_points, mock_points, parameters)
 
 
+    def test_lic_11_should_pass_if_sub_lt_0(self):
+        parameters = {
+            "g_pts": 4
+        }
+        points_1 = [{'x':5, 'y':0},{'x':0, 'y':0},{'x':0, 'y':0},{'x':0, 'y':0},
+                    {'x':0, 'y':0},{'x':3, 'y':0},{'x':0, 'y':0},{'x':0, 'y':0},
+                    {'x':0, 'y':0},{'x':0, 'y':0},{'x':0, 'y':0},{'x':0, 'y':0}]
+        self.assertTrue(check_lic_11(points_1, parameters))
+
+    def test_lic_11_should_fail_if_sub_gt_0(self):
+        parameters = {
+            "g_pts": 4
+        }
+        points_1 = [{'x':0, 'y':0},{'x':1, 'y':0},{'x':0, 'y':0},{'x':0, 'y':0},
+                    {'x':0, 'y':0},{'x':0, 'y':0},{'x':5, 'y':0},{'x':0, 'y':0},
+                    {'x':0, 'y':0},{'x':0, 'y':0},{'x':0, 'y':0},{'x':10, 'y':0}]
+        self.assertFalse(check_lic_11(points_1, parameters))
+
+    def test_lic_11_should_raise_error_if_gpts_and_points_mismatch(self):
+        with self.assertRaises(ValueError):
+            points_1 = [{'x':0, 'y':0},{'x':0, 'y':0},{'x':0, 'y':0},
+                        {'x':0, 'y':0},{'x':0, 'y':0},{'x':0, 'y':0}]
+            parameters = {
+            "g_pts": 6
+            }   
+            check_lic_11(points_1, parameters)
+
 class FUVTest(unittest.TestCase):
     # TODO: Add actual tests here
     def test_something(self):

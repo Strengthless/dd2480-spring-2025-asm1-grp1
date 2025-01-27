@@ -2,7 +2,6 @@ import math
 from modules.types import Coordinate, Parameters
 import numpy as np
 
-
 # Helper functions
 def check_lic_0(num_points, points: list[Coordinate], parameters: Parameters) -> bool:
     if num_points < 2 or parameters["length1"] <= 0:
@@ -66,9 +65,7 @@ def check_lic_9() -> bool:
     return False
 
 
-def check_lic_10(
-    num_points: int, points: list[Coordinate], parameters: Parameters
-) -> bool:
+def check_lic_10(num_points: int, points: list[Coordinate], parameters: Parameters) -> bool:
     area1 = parameters["area1"]
     e_pts = parameters["e_pts"]
     f_pts = parameters["f_pts"]
@@ -100,11 +97,19 @@ def check_lic_10(
 
     return False
 
+def check_lic_11(points: list[Coordinate], parameters: Parameters) -> bool:
 
-def check_lic_11() -> bool:
-    # TODO: Update the function signature and implementation
-    return False
+    g_pts = parameters["g_pts"]
 
+    if len(points) < 3:
+        return False
+
+    if not (1 <= g_pts <= len(points)-2):
+        raise ValueError
+
+    for i in range(len(points)-g_pts-1):
+        if points[i+g_pts+1]["x"] - points[i]["x"] < 0:
+            return True
 
 def check_lic_12() -> bool:
     # TODO: Update the function signature and implementation
@@ -122,9 +127,7 @@ def check_lic_14() -> bool:
 
 
 # Main function
-def get_cmv(
-    num_points: int, points: list[Coordinate], parameters: Parameters
-) -> list[bool]:
+def get_cmv(num_points: int, points: list[Coordinate], parameters: Parameters) -> list[bool]:
     return [
         check_lic_0(num_points, points, parameters),
         check_lic_1(),
