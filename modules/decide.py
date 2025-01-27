@@ -5,6 +5,7 @@ from modules.cmv import get_cmv
 from modules.fuv import get_fuv
 from modules.pum import get_pum
 
+
 # Type declarations
 class Decision(NamedTuple):
     launch: bool
@@ -12,17 +13,19 @@ class Decision(NamedTuple):
     pum: list[list[bool]]
     fuv: list[bool]
 
+
 # Helper functions
 def determine_launch(fuv: list[bool]) -> bool:
     return all(fuv)
 
+
 # Main function
 def decide(
-    num_points: int, 
-    points: list[Coordinate], 
-    parameters: Parameters, 
-    lcm: list[list[Connectors]], 
-    puv: list[bool]
+    num_points: int,
+    points: list[Coordinate],
+    parameters: Parameters,
+    lcm: list[list[Connectors]],
+    puv: list[bool],
 ) -> Decision:
     cmv = get_cmv(num_points, points, parameters)
     pum = get_pum(cmv, lcm)
