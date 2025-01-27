@@ -12,6 +12,10 @@ class Decision(NamedTuple):
     pum: list[list[bool]]
     fuv: list[bool]
 
+# Helper functions
+def determine_launch(fuv: list[bool]) -> bool:
+    return all(fuv)
+
 # Main function
 def decide(
     num_points: int, 
@@ -25,7 +29,3 @@ def decide(
     fuv = get_fuv(pum, puv)
     launch = determine_launch(fuv)
     return Decision(launch, cmv, pum, fuv)
-
-# Helper functions
-def determine_launch(fuv: list[bool]) -> bool:
-    return all(fuv)
