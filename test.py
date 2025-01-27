@@ -68,7 +68,7 @@ class DecideTests(unittest.TestCase):
         self.assertEqual(launch, False)
 
 class CMVTests(unittest.TestCase):
-  def test_lic_0_no_distance_greater_than_length(self):
+    def test_lic_0_no_distance_greater_than_length(self):
         params = Parameters(
             length1=5.3,   # Length in LICs 0, 7, 12
             radius1=3.0,   # Radius in LICs 1, 8, 13
