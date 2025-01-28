@@ -38,13 +38,12 @@ class FUVTest(unittest.TestCase):
         puv = [True] * 15
         puv[1] = False
         pum_false_pos = [(1,0), (0,1), (0,3), (3,0)]
-        fuv_false_pos = [0, 3] # assignement states that it should only be false at index 0?? PUV[3] = true and PUM[3,0] = flase -> fuv[3] should be false right?
+        fuv_false_pos = [0, 3]
         pum = [[(i,j) not in pum_false_pos for j in range(15)] for i in range(15)]
         expectedResult = [i not in fuv_false_pos for i in range(15)] 
 
         # get fuv
         fuv = get_fuv(pum=pum, puv=puv)
-        print(fuv)
         self.assertEqual(fuv, expectedResult)
 
 class PUMTest(unittest.TestCase):
