@@ -158,7 +158,7 @@ class CMVTests(unittest.TestCase):
             cmv.check_lic_5(points), "LIC 5: Points are increasingly close (x1 < x2)"
         )
 
-    def test_lic_5_should_pass_if_points_have_the_same_coordinates(self):
+    def test_lic_5_should_fail_if_points_have_the_same_coordinates(self):
         points = [
             {"x": 1, "y": 1},
             {"x": 1, "y": 1},
