@@ -64,32 +64,21 @@ def check_lic_6(
             [stripped_points[-1]["x"], stripped_points[-1]["y"]], dtype=float
         )
 
-        if np.array_equal(first_point, last_point):
-            for j in range(1, n_pts):
-                current_point = np.array(
-                    [stripped_points[j]["x"], stripped_points[j]["y"]], dtype=float
-                )
-                cur_pt_dist_to_pt = np.linalg.norm(first_point - current_point)
+        for j in range(1, n_pts):
+            current_point = np.array(
+                [stripped_points[j]["x"], stripped_points[j]["y"]], dtype=float
+            )
 
+            if np.array_equal(first_point, last_point):
+                cur_pt_dist_to_pt = np.linalg.norm(first_point - current_point)
                 if cur_pt_dist_to_pt > dist:
                     return True
 
-        else:
-            for j in range(1, n_pts):
-                current_point = np.array(
-                    [stripped_points[j]["x"], stripped_points[j]["y"]], dtype=float
-                )
-                ax, ay = last_point[0] - first_point[0], last_point[1] - first_point[1]
-                bx, by = (
-                    first_point[0] - current_point[0],
-                    first_point[1] - current_point[1],
-                )
-
+            else:
+                ax, ay = last_point - first_point
+                bx, by = first_point - current_point
                 cross_value = ax * by - ay * bx
-
-                cur_pt_dist_to_line = np.abs(cross_value) / np.linalg.norm(
-                    last_point - first_point
-                )
+                cur_pt_dist_to_line = np.abs(cross_value) / np.linalg.norm([ax, ay])
 
                 if cur_pt_dist_to_line > dist:
                     return True
