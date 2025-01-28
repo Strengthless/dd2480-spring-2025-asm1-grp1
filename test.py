@@ -134,7 +134,7 @@ class CMVTests(unittest.TestCase):
         ]
         num_points = len(points)
         self.assertFalse(cmv.check_lic_0(num_points, points, params))
-        
+
     def test_lic_5_should_fail_if_points_are_increasingly_far(self):
         points = [
             {"x": 0, "y": 1},
@@ -206,7 +206,8 @@ class CMVTests(unittest.TestCase):
         points = [{"x": 0, "y": 0}, {"x": 2, "y": 2}]
         num_points = len(points)
         self.assertFalse(
-            cmv.check_lic_6(num_points, points, parameters), "LIC 6: Illegal input")
+            cmv.check_lic_6(num_points, points, parameters), "LIC 6: Illegal input"
+        )
 
     # LIC 10 test cases
     def test_lic_10_should_pass_if_area_gt_area1(self):
