@@ -135,7 +135,7 @@ class CMVTests(unittest.TestCase):
         num_points = len(points)
         self.assertFalse(cmv.check_lic_0(num_points, points, params))
         
-        def test_lic_5_should_fail_if_points_are_increasingly_far(self):
+    def test_lic_5_should_fail_if_points_are_increasingly_far(self):
         points = [
             {"x": 0, "y": 1},
             {"x": 1, "y": 1},
