@@ -133,8 +133,40 @@ class CMVTests(unittest.TestCase):
             {"x": 1.0, "y": 2.0},
         ]
         num_points = len(points)
-
         self.assertFalse(cmv.check_lic_0(num_points, points, params))
+
+    def test_lic_5_should_fail_if_points_are_increasingly_far(self):
+        points = [
+            {"x": 0, "y": 1},
+            {"x": 1, "y": 1},
+            {"x": 2, "y": 1},
+            {"x": 3, "y": 1},
+        ]
+        self.assertFalse(
+            cmv.check_lic_5(points), "LIC 5: Points are increasingly far away (x1 > x2)"
+        )
+
+    def test_lic_5_should_pass_if_points_are_increasingly_close(self):
+        points = [
+            {"x": 3, "y": 1},
+            {"x": 2, "y": 1},
+            {"x": 1, "y": 1},
+            {"x": 0, "y": 1},
+        ]
+        self.assertTrue(
+            cmv.check_lic_5(points), "LIC 5: Points are increasingly close (x1 < x2)"
+        )
+
+    def test_lic_5_should_fail_if_points_have_the_same_coordinates(self):
+        points = [
+            {"x": 1, "y": 1},
+            {"x": 1, "y": 1},
+            {"x": 1, "y": 1},
+            {"x": 1, "y": 1},
+        ]
+        self.assertFalse(
+            cmv.check_lic_5(points), "LIC 5: Points are the same (x1 = x2)"
+        )
 
     # LIC 10 test cases
     def test_lic_10_should_pass_if_area_gt_area1(self):

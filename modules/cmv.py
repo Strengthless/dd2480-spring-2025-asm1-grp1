@@ -41,9 +41,8 @@ def check_lic_4() -> bool:
     return False
 
 
-def check_lic_5() -> bool:
-    # TODO: Update the function signature and implementation
-    return False
+def check_lic_5(points: list[Coordinate]) -> bool:
+    return any(p2["x"] - p1["x"] < 0 for p1, p2 in zip(points, points[1:]))
 
 
 def check_lic_6() -> bool:
@@ -143,7 +142,7 @@ def get_cmv(
         check_lic_2(),
         check_lic_3(),
         check_lic_4(),
-        check_lic_5(),
+        check_lic_5(points),
         check_lic_6(),
         check_lic_7(),
         check_lic_8(),
