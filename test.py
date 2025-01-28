@@ -1,5 +1,4 @@
 import unittest
-
 import unittest.test
 from main import parse_input
 from modules.decide import determine_launch
@@ -264,6 +263,12 @@ class CMVTests(unittest.TestCase):
             {"x": 0, "y": 0},
             {"x": 0, "y": 0},
             {"x": 0, "y": 0},
+            {"x": 0, "y": 6},
+            {"x": 0, "y": 0},
+            {"x": 0, "y": 0},
+            {"x": 0, "y": 0},
+            {"x": 0, "y": 0},
+            {"x": 0, "y": 0},
             {"x": 0, "y": 0},
             {"x": 0, "y": 0},
             {"x": 0, "y": 0},
@@ -274,7 +279,7 @@ class CMVTests(unittest.TestCase):
 
     def test_lic_12_should_fail_if_num_points_lt_3(self):
         parameters = {"k_pts": 3, "length1": 5, "length2": 3}
-        points = [{"x": 0, "y": 0}, {"x": 0, "y": 0}]  # False
+        points = [{"x": 0, "y": 0}, {"x": 0, "y": 0}]
         num_points = len(points)
         self.assertFalse(cmv.check_lic_12(num_points, points, parameters))
 
