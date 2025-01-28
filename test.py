@@ -223,7 +223,7 @@ class CMVTests(unittest.TestCase):
     # LIC 12 test cases
     def test_lic_12_should_pass_if_length_gt_length1_lt_length2(self):
         parameters = {"k_pts": 3, "length1": 5, "length2": 3}
-        points_1 = [
+        points = [
             {"x": 0, "y": 0},
             {"x": 0, "y": 0},
             {"x": 0, "y": 0},
@@ -237,11 +237,12 @@ class CMVTests(unittest.TestCase):
             {"x": 0, "y": 0},
             {"x": 0, "y": 0},
         ]  # True
-        self.assertTrue(cmv.check_lic_12(points_1, parameters))
+        num_points = len(points)
+        self.assertTrue(cmv.check_lic_12(num_points, points, parameters))
 
     def test_lic_12_should_fail_if_length_lt_length1_gt_length2(self):
         parameters = {"k_pts": 3, "length1": 5, "length2": 3}
-        points_1 = [
+        points = [
             {"x": 0, "y": 0},
             {"x": 0, "y": 0},
             {"x": 0, "y": 0},
@@ -255,10 +256,11 @@ class CMVTests(unittest.TestCase):
             {"x": 0, "y": 0},
             {"x": 0, "y": 0},
         ]  # False
-        self.assertFalse(cmv.check_lic_12(points_1, parameters))
+        num_points = len(points)
+        self.assertFalse(cmv.check_lic_12(num_points, points, parameters))
 
     def test_lic_12_should_fail_if_length2_lt_0(self):
-        points_1 = [
+        points = [
             {"x": 0, "y": 0},
             {"x": 0, "y": 0},
             {"x": 0, "y": 0},
@@ -267,12 +269,14 @@ class CMVTests(unittest.TestCase):
             {"x": 0, "y": 0},
         ]
         parameters = {"k_pts": 3, "length1": 5, "length2": -1}
-        self.assertFalse(cmv.check_lic_12(points_1, parameters))
+        num_points = len(points)
+        self.assertFalse(cmv.check_lic_12(num_points, points, parameters))
 
     def test_lic_12_should_fail_if_num_points_lt_3(self):
         parameters = {"k_pts": 3, "length1": 5, "length2": 3}
-        points_1 = [{"x": 0, "y": 0}, {"x": 0, "y": 0}]  # False
-        self.assertFalse(cmv.check_lic_12(points_1, parameters))
+        points = [{"x": 0, "y": 0}, {"x": 0, "y": 0}]  # False
+        num_points = len(points)
+        self.assertFalse(cmv.check_lic_12(num_points, points, parameters))
 
 
 class FUVTest(unittest.TestCase):
