@@ -75,13 +75,12 @@ def check_lic_10(
 
     if num_points < 5:
         return False
-
     if e_pts < 1:
-        raise ValueError("e_pts must be greater than or equal to 1")
+        return False
     if f_pts < 1:
-        raise ValueError("f_pts must be greater than or equal to 1")
+        return False
     if e_pts + f_pts > num_points - 3:
-        raise ValueError("e_pts + f_pts must be less than or equal to num_points - 3")
+        return False
 
     for i in range(num_points - e_pts - f_pts - 2):
         # Calculate the area of the triangle that is defined by the two
@@ -110,7 +109,7 @@ def check_lic_11(
         return False
 
     if not (1 <= g_pts <= num_points - 2):
-        raise ValueError
+        return False
 
     for i in range(num_points - g_pts - 1):
         if points[i + g_pts + 1]["x"] - points[i]["x"] < 0:
