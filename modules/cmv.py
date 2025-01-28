@@ -82,11 +82,8 @@ def check_lic_8(
             [points[i + a_pts + b_pts + 2]["x"], points[i + a_pts + b_pts + 2]["y"]],
             dtype=float,
         )
-
         a_distance = np.linalg.norm(x_point - y_point)
-
         b_distance = np.linalg.norm(y_point - z_point)
-
         c_distance = np.linalg.norm(z_point - x_point)
 
         triangle_area = (
@@ -101,23 +98,28 @@ def check_lic_8(
         if triangle_area == 0:
             max_distance = max(a_distance, b_distance, c_distance)
 
-            # Identical points are skipped
-            if max_distance == 0:
-                continue
-
             # Collinear case
             if max_distance / 2 > radius1:
                 return True
 
-            # Skip, check other points
+            # Skip if collinear case fitted in radius or the points are the same
             continue
 
         circumcircle_radius = (a_distance * b_distance * c_distance) / (
             4 * triangle_area
         )
 
-        if circumcircle_radius > radius1:
-            return True
+        sides = sorted([a_distance, b_distance, c_distance])
+        a, b, c = sides
+
+        # Acute triangle
+        if c**2 < a**2 + b**2:
+            if circumcircle_radius > radius1:
+                return True
+        # Right or obtuse triangle
+        elif c**2 >= a**2 + b**2:
+            if (c / 2) > radius1:
+                return True
 
     return False
 
