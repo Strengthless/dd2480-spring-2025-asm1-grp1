@@ -1,6 +1,4 @@
 import unittest
-
-import unittest.test
 from main import parse_input
 from modules.decide import determine_launch
 from modules.pum import get_pum
@@ -136,6 +134,50 @@ class CMVTests(unittest.TestCase):
 
         self.assertFalse(cmv.check_lic_0(num_points, points, params))
 
+    def test_lic_7_invalid_input(self):
+        parameters = {"k_pts": 0, "length1": -5}
+        points = [
+            {"x": 1, "y": 2},
+            {"x": 1, "y": 2},
+            {"x": 2, "y": 2},
+        ]
+        num_points = len(points)
+
+        self.assertFalse(
+            cmv.check_lic_7(num_points, points, parameters),
+            "LIC 7: should fail (k_pts < 1 & negative length)",
+        )
+
+    def test_lic_7_should_fail_if_distance_is_not_enough(self):
+        parameters = {"k_pts": 1, "length1": 5}
+        points = [
+            {"x": 1, "y": 2},
+            {"x": 2, "y": 2},
+            {"x": 1, "y": 2},
+            {"x": 1, "y": 2},
+        ]
+        num_points = len(points)
+
+        self.assertFalse(
+            cmv.check_lic_7(num_points, points, parameters),
+            "LIC 7: distance between two points <= length1",
+        )
+
+    def test_lic_7_should_pass_if_distance_is_enough(self):
+        parameters = {"k_pts": 1, "length1": 3}
+        points = [
+            {"x": 2, "y": 2},
+            {"x": 2, "y": 2},
+            {"x": 1, "y": 2},
+            {"x": 5, "y": 5},
+        ]
+        num_points = len(points)
+
+        self.assertTrue(
+            cmv.check_lic_7(num_points, points, parameters),
+            "LIC 7: distance between two points > length1",
+        )
+
     # LIC 10 test cases
     def test_lic_10_should_pass_if_area_gt_area1(self):
         parameters = {"area1": 1, "e_pts": 3, "f_pts": 4}
@@ -170,33 +212,55 @@ class CMVTests(unittest.TestCase):
             num_points = len(mock_points)
             cmv.check_lic_10(num_points, mock_points, parameters)
 
-
     def test_lic_11_should_pass_if_sub_lt_0(self):
-        parameters = {
-            "g_pts": 4
-        }
-        points_1 = [{'x':5, 'y':0},{'x':0, 'y':0},{'x':0, 'y':0},{'x':0, 'y':0},
-                    {'x':0, 'y':0},{'x':3, 'y':0},{'x':0, 'y':0},{'x':0, 'y':0},
-                    {'x':0, 'y':0},{'x':0, 'y':0},{'x':0, 'y':0},{'x':0, 'y':0}]
-        self.assertTrue(check_lic_11(points_1, parameters))
+        parameters = {"g_pts": 4}
+        points_1 = [
+            {"x": 5, "y": 0},
+            {"x": 0, "y": 0},
+            {"x": 0, "y": 0},
+            {"x": 0, "y": 0},
+            {"x": 0, "y": 0},
+            {"x": 3, "y": 0},
+            {"x": 0, "y": 0},
+            {"x": 0, "y": 0},
+            {"x": 0, "y": 0},
+            {"x": 0, "y": 0},
+            {"x": 0, "y": 0},
+            {"x": 0, "y": 0},
+        ]
+        self.assertTrue(cmv.check_lic_11(points_1, parameters))
 
     def test_lic_11_should_fail_if_sub_gt_0(self):
-        parameters = {
-            "g_pts": 4
-        }
-        points_1 = [{'x':0, 'y':0},{'x':1, 'y':0},{'x':0, 'y':0},{'x':0, 'y':0},
-                    {'x':0, 'y':0},{'x':0, 'y':0},{'x':5, 'y':0},{'x':0, 'y':0},
-                    {'x':0, 'y':0},{'x':0, 'y':0},{'x':0, 'y':0},{'x':10, 'y':0}]
-        self.assertFalse(check_lic_11(points_1, parameters))
+        parameters = {"g_pts": 4}
+        points_1 = [
+            {"x": 0, "y": 0},
+            {"x": 1, "y": 0},
+            {"x": 0, "y": 0},
+            {"x": 0, "y": 0},
+            {"x": 0, "y": 0},
+            {"x": 0, "y": 0},
+            {"x": 5, "y": 0},
+            {"x": 0, "y": 0},
+            {"x": 0, "y": 0},
+            {"x": 0, "y": 0},
+            {"x": 0, "y": 0},
+            {"x": 10, "y": 0},
+        ]
+        self.assertFalse(cmv.check_lic_11(points_1, parameters))
 
     def test_lic_11_should_raise_error_if_gpts_and_points_mismatch(self):
         with self.assertRaises(ValueError):
-            points_1 = [{'x':0, 'y':0},{'x':0, 'y':0},{'x':0, 'y':0},
-                        {'x':0, 'y':0},{'x':0, 'y':0},{'x':0, 'y':0}]
-            parameters = {
-            "g_pts": 6
-            }   
-            check_lic_11(points_1, parameters)
+            points_1 = [
+                {"x": 0, "y": 0},
+                {"x": 0, "y": 0},
+                {"x": 0, "y": 0},
+                {"x": 0, "y": 0},
+                {"x": 0, "y": 0},
+                {"x": 0, "y": 0},
+            ]
+            parameters = {"g_pts": 6}
+            cmv.check_lic_11(points_1, parameters)
+
 
 class FUVTest(unittest.TestCase):
     # TODO: Add actual tests here

@@ -2,6 +2,7 @@ import math
 from modules.types import Coordinate, Parameters
 import numpy as np
 
+
 # Helper functions
 def check_lic_0(num_points, points: list[Coordinate], parameters: Parameters) -> bool:
     if num_points < 2 or parameters["length1"] <= 0:
@@ -50,8 +51,26 @@ def check_lic_6() -> bool:
     return False
 
 
-def check_lic_7() -> bool:
-    # TODO: Update the function signature and implementation
+def check_lic_7(
+    num_points: int, points: list[Coordinate], parameters: Parameters
+) -> bool:
+    k_pts = parameters["k_pts"]
+    length1 = parameters["length1"]
+
+    if num_points < 3 or not (1 <= k_pts <= (num_points - 2)) or length1 < 0:
+        return False
+
+    for i in range(num_points - k_pts - 1):
+        first_point = np.array([points[i]["x"], points[i]["y"]], dtype=float)
+        last_point = np.array(
+            [points[i + k_pts + 1]["x"], points[i + k_pts + 1]["y"]], dtype=float
+        )
+
+        first_last_distance = np.linalg.norm(first_point - last_point)
+
+        if first_last_distance > length1:
+            return True
+
     return False
 
 
@@ -65,7 +84,9 @@ def check_lic_9() -> bool:
     return False
 
 
-def check_lic_10(num_points: int, points: list[Coordinate], parameters: Parameters) -> bool:
+def check_lic_10(
+    num_points: int, points: list[Coordinate], parameters: Parameters
+) -> bool:
     area1 = parameters["area1"]
     e_pts = parameters["e_pts"]
     f_pts = parameters["f_pts"]
@@ -97,6 +118,7 @@ def check_lic_10(num_points: int, points: list[Coordinate], parameters: Paramete
 
     return False
 
+
 def check_lic_11(points: list[Coordinate], parameters: Parameters) -> bool:
 
     g_pts = parameters["g_pts"]
@@ -104,12 +126,13 @@ def check_lic_11(points: list[Coordinate], parameters: Parameters) -> bool:
     if len(points) < 3:
         return False
 
-    if not (1 <= g_pts <= len(points)-2):
+    if not (1 <= g_pts <= len(points) - 2):
         raise ValueError
 
-    for i in range(len(points)-g_pts-1):
-        if points[i+g_pts+1]["x"] - points[i]["x"] < 0:
+    for i in range(len(points) - g_pts - 1):
+        if points[i + g_pts + 1]["x"] - points[i]["x"] < 0:
             return True
+
 
 def check_lic_12() -> bool:
     # TODO: Update the function signature and implementation
@@ -127,7 +150,9 @@ def check_lic_14() -> bool:
 
 
 # Main function
-def get_cmv(num_points: int, points: list[Coordinate], parameters: Parameters) -> list[bool]:
+def get_cmv(
+    num_points: int, points: list[Coordinate], parameters: Parameters
+) -> list[bool]:
     return [
         check_lic_0(num_points, points, parameters),
         check_lic_1(),
