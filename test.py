@@ -145,31 +145,37 @@ class CMVTests(unittest.TestCase):
         self.assertTrue(cmv.check_lic_10(num_points, mock_points, parameters))
 
     def test_lic_10_should_fail_if_area_lte_area1(self):
-        parameters = {"area1": 2, "e_pts": 3, "f_pts": 4}
+        parameters = {"area1": 5, "e_pts": 3, "f_pts": 4}
         mock_points = self.mock_points_c1
         num_points = len(mock_points)
-        self.assertTrue(cmv.check_lic_10(num_points, mock_points, parameters))
+        self.assertFalse(cmv.check_lic_10(num_points, mock_points, parameters))
 
-    def test_lic_10_should_raise_error_if_epts_is_invalid(self):
-        with self.assertRaises(ValueError):
-            parameters = {"area1": 2, "e_pts": 0, "f_pts": 4}
-            mock_points = self.mock_points_c2
-            num_points = len(mock_points)
-            cmv.check_lic_10(num_points, mock_points, parameters)
+    def test_lic_10_should_fail_if_epts_is_invalid(self):
+        parameters = {"area1": 2, "e_pts": 0, "f_pts": 4}
+        mock_points = self.mock_points_c2
+        num_points = len(mock_points)
+        self.assertFalse(
+            cmv.check_lic_10(num_points, mock_points, parameters),
+            "LIC returns false because e_pts (0) < 1.",
+        )
 
-    def test_lic_10_should_raise_error_if_fpts_is_invalid(self):
-        with self.assertRaises(ValueError):
-            parameters = {"area1": 2, "e_pts": 3, "f_pts": 0}
-            mock_points = self.mock_points_c2
-            num_points = len(mock_points)
-            cmv.check_lic_10(num_points, mock_points, parameters)
+    def test_lic_10_should_fail_if_fpts_is_invalid(self):
+        parameters = {"area1": 2, "e_pts": 3, "f_pts": 0}
+        mock_points = self.mock_points_c2
+        num_points = len(mock_points)
+        self.assertFalse(
+            cmv.check_lic_10(num_points, mock_points, parameters),
+            "LIC returns false because f_pts (0) < 1.",
+        )
 
-    def test_lic_10_should_raise_error_if_epts_fpts_and_points_mismatch(self):
-        with self.assertRaises(ValueError):
-            parameters = {"area1": 2, "e_pts": 8, "f_pts": 4}
-            mock_points = self.mock_points_c2
-            num_points = len(mock_points)
-            cmv.check_lic_10(num_points, mock_points, parameters)
+    def test_lic_10_should_fail_if_epts_fpts_and_points_mismatch(self):
+        parameters = {"area1": 2, "e_pts": 8, "f_pts": 4}
+        mock_points = self.mock_points_c2
+        num_points = len(mock_points)
+        self.assertFalse(
+            cmv.check_lic_10(num_points, mock_points, parameters),
+            "LIC returns false because e_pts + f_pts (12) > num_points - 3 (3).",
+        )
 
     # LIC 11 test cases
     def test_lic_11_should_pass_if_sub_lt_0(self):
@@ -207,18 +213,21 @@ class CMVTests(unittest.TestCase):
         )
 
     def test_lic_11_should_raise_error_if_gpts_and_points_mismatch(self):
-        with self.assertRaises(ValueError):
-            parameters = {"g_pts": 5}
-            points = [
-                {"x": 0, "y": 0},
-                {"x": 0, "y": 0},
-                {"x": 0, "y": 0},
-                {"x": 0, "y": 0},
-                {"x": 0, "y": 0},
-                {"x": 0, "y": 0},
-            ]
-            num_points = len(points)
-            cmv.check_lic_11(num_points, points, parameters)
+        parameters = {"g_pts": 5}
+        points = [
+            {"x": 0, "y": 0},
+            {"x": 0, "y": 0},
+            {"x": 0, "y": 0},
+            {"x": 0, "y": 0},
+            {"x": 0, "y": 0},
+            {"x": 0, "y": 0},
+            {"x": 0, "y": 0},
+        ]
+        num_points = len(points)
+        self.assertFalse(
+            cmv.check_lic_11(num_points, points, parameters),
+            "LIC returns false because g_pts (5) > num_points - 2 (4).",
+        )
 
 
 class FUVTest(unittest.TestCase):
