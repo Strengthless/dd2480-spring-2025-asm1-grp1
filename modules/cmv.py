@@ -56,8 +56,69 @@ def check_lic_7() -> bool:
     return False
 
 
-def check_lic_8() -> bool:
-    # TODO: Update the function signature and implementation
+def check_lic_8(
+    num_points: int, points: list[Coordinate], parameters: Parameters
+) -> bool:
+    a_pts = parameters["a_pts"]
+    b_pts = parameters["b_pts"]
+    radius1 = parameters["radius1"]
+
+    if (
+        (a_pts + b_pts > num_points - 3)
+        or (1 > a_pts)
+        or (1 > b_pts)
+        or (radius1 < 0)
+        or (num_points < 5)
+    ):
+        return False
+
+    for i in range(num_points - a_pts - b_pts - 2):
+        # Using properties of a circumcirle for 3 points creating a triangle.
+        x_point = np.array([points[i]["x"], points[i]["y"]], dtype=float)
+        y_point = np.array(
+            [points[i + a_pts + 1]["x"], points[i + a_pts + 1]["y"]], dtype=float
+        )
+        z_point = np.array(
+            [points[i + a_pts + b_pts + 2]["x"], points[i + a_pts + b_pts + 2]["y"]],
+            dtype=float,
+        )
+
+        a_distance = np.linalg.norm(x_point - y_point)
+
+        b_distance = np.linalg.norm(y_point - z_point)
+
+        c_distance = np.linalg.norm(z_point - x_point)
+
+        triangle_area = (
+            abs(
+                x_point[0] * (y_point[1] - z_point[1])
+                + y_point[0] * (z_point[1] - x_point[1])
+                + z_point[0] * (x_point[1] - y_point[1])
+            )
+            / 2
+        )
+
+        if triangle_area == 0:
+            max_distance = max(a_distance, b_distance, c_distance)
+
+            # Identical points are skipped
+            if max_distance == 0:
+                continue
+
+            # Collinear case
+            if max_distance / 2 > radius1:
+                return True
+
+            # Skip, check other points
+            continue
+
+        circumcircle_radius = (a_distance * b_distance * c_distance) / (
+            4 * triangle_area
+        )
+
+        if circumcircle_radius > radius1:
+            return True
+
     return False
 
 
@@ -147,7 +208,7 @@ def get_cmv(
         check_lic_5(),
         check_lic_6(),
         check_lic_7(),
-        check_lic_8(),
+        check_lic_8(num_points, points, parameters),
         check_lic_9(),
         check_lic_10(num_points, points, parameters),
         check_lic_11(num_points, points, parameters),
