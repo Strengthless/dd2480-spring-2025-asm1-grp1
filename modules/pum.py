@@ -1,10 +1,11 @@
 from modules.types import Connectors
 
+
 def get_pum(cmv: list[int], lcm: list[list[Connectors]]) -> list[list[bool]]:
     # create pum matrix with true as default
-    if (len(cmv) != 15):
-        raise AssertionError('Malformed CMV size')
-    n = 15 
+    if len(cmv) != 15:
+        raise AssertionError("Malformed CMV size")
+    n = 15
     pum = [[True] * n for _ in range(n)]
 
     # go over matrix (only half because symmetric)
@@ -15,7 +16,7 @@ def get_pum(cmv: list[int], lcm: list[list[Connectors]]) -> list[list[bool]]:
                 pum[i][j] = cmv[i] and cmv[j]
             elif lcm[i][j] == Connectors.ORR:
                 pum[i][j] = cmv[i] or cmv[j]
-            
+
             # mirror values to other side
             pum[j][i] = pum[i][j]
 
