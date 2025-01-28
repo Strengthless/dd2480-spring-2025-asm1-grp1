@@ -19,18 +19,6 @@ def check_lic_4() -> bool:
     return False
 
 def check_lic_5(points: list[Coordinate]) -> bool:
-    """
-    Function to check if the LIC 5 is satisfied
-
-    Inputs:
-        points: List[{"x" : float, "y" : float}, ...]
-            list of dict
-
-    Outputs:
-        Boolean 
-            True if the condition is met, False otherwise
-
-    """
     return any(p2["x"] - p1["x"] < 0 for p1, p2 in zip(points, points[1:]))
 
 def check_lic_6() -> bool:

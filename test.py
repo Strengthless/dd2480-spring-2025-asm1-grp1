@@ -31,7 +31,7 @@ class CMVTests(unittest.TestCase):
         points = [{'x':3, 'y':1},{'x':2, 'y':1},{'x':1, 'y':1},{'x':0, 'y':1}]
         self.assertTrue(check_lic_5(points), "LIC 5: Points are increasingly close (x1 < x2)")
 
-    def test_lic_5_should_pass_if_points_are_increasingly_close(self):
+    def test_lic_5_should_pass_if_points_have_the_same_coordinates(self):
         points = [{'x':1, 'y':1},{'x':1, 'y':1},{'x':1, 'y':1},{'x':1, 'y':1}]
         self.assertFalse(check_lic_5(points), "LIC 5: Points are the same (x1 = x2)")
 
