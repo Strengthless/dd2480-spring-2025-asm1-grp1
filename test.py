@@ -145,7 +145,7 @@ class CMVTests(unittest.TestCase):
 
         self.assertFalse(
             cmv.check_lic_7(num_points, points, parameters),
-            "LIC 7: should fail (k_pts < 1 & negative length)",
+            "LIC 7: invalid input (k_pts < 1 & negative length)",
         )
 
     def test_lic_7_should_fail_if_distance_is_not_enough(self):
