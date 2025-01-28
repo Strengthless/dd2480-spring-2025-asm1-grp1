@@ -117,8 +117,37 @@ def check_lic_11(
     return False
 
 
-def check_lic_12() -> bool:
-    # TODO: Update the function signature and implementation
+def check_lic_12(
+    num_points: int, points: list[Coordinate], parameters: Parameters
+) -> bool:
+    k_pts = parameters["k_pts"]
+    length1 = parameters["length1"]
+    length2 = parameters["length2"]
+
+    if num_points < 3:
+        return False
+    if length2 < 0:
+        return False
+
+    flag_1 = False
+    flag_2 = False
+
+    for i in range(num_points - k_pts - 1):
+        j = i + k_pts + 1
+        coord1 = np.array([points[j]["x"], points[j]["y"]])
+        coord2 = np.array([points[i]["x"], points[i]["y"]])
+        # Calculate the distance between the two points
+        length_calc = np.linalg.norm(coord1 - coord2)
+
+        if length_calc > length1:
+            flag_1 = True
+
+        if length_calc < length2:
+            flag_2 = True
+
+        if flag_1 and flag_2:
+            return True
+
     return False
 
 
