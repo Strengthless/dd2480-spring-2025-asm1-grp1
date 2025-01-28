@@ -34,10 +34,7 @@ def parse_input(
 ) -> tuple[int, list[Coordinate], Parameters, list[list[Connectors]], list[bool]]:
     with open(f"inputs/{target_file}", "r") as file:
         # Parse number of points
-        try:
-            num_points = int(file.readline())
-        except:
-            raise TypeError("Number of points must be an integer.")
+        num_points = int(file.readline())
 
         if num_points < 2 or num_points > 100:
             raise ValueError("Number of points must be [2, 100].")
@@ -48,27 +45,17 @@ def parse_input(
             line_data = file.readline().split()
             if len(line_data) != 2:
                 raise ValueError("Invalid coordinates, or point count mismatch.")
-            try:
-                x, y = map(float, line_data)
-                points.append(Coordinate(x=x, y=y))
-            except:
-                raise TypeError("Coordinates must be floats.")
+            x, y = map(float, line_data)
+            points.append(Coordinate(x=x, y=y))
 
         # Parse parameters
         line_data = file.readline().split()
         if len(line_data) != 19:
             raise ValueError("Parameters count must be 19.")
-        try:
-            new_params = Parameters()
-            for (key, key_type), data in zip(
-                Parameters.__annotations__.items(), line_data
-            ):
-                new_params[key] = key_type(data)
-            parameters = new_params
-        except:
-            raise TypeError(
-                "Invalid parameter found. Please check whether they are correctly typed as floats or ints."
-            )
+        new_params = Parameters()
+        for (key, key_type), data in zip(Parameters.__annotations__.items(), line_data):
+            new_params[key] = key_type(data)
+        parameters = new_params
 
         # Parse LCM
         lcm = []

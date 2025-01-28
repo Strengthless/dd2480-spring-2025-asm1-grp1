@@ -1,0 +1,5 @@
+snapshottest
+black
+flake8
+pre-commit
+numpy
