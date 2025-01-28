@@ -41,9 +41,8 @@ def check_lic_4() -> bool:
     return False
 
 
-def check_lic_5() -> bool:
-    # TODO: Update the function signature and implementation
-    return False
+def check_lic_5(points: list[Coordinate]) -> bool:
+    return any(p2["x"] - p1["x"] < 0 for p1, p2 in zip(points, points[1:]))
 
 
 def check_lic_6(
@@ -109,13 +108,12 @@ def check_lic_10(
 
     if num_points < 5:
         return False
-
     if e_pts < 1:
-        raise ValueError("e_pts must be greater than or equal to 1")
+        return False
     if f_pts < 1:
-        raise ValueError("f_pts must be greater than or equal to 1")
+        return False
     if e_pts + f_pts > num_points - 3:
-        raise ValueError("e_pts + f_pts must be less than or equal to num_points - 3")
+        return False
 
     for i in range(num_points - e_pts - f_pts - 2):
         # Calculate the area of the triangle that is defined by the two
@@ -144,7 +142,7 @@ def check_lic_11(
         return False
 
     if not (1 <= g_pts <= num_points - 2):
-        raise ValueError
+        return False
 
     for i in range(num_points - g_pts - 1):
         if points[i + g_pts + 1]["x"] - points[i]["x"] < 0:
@@ -178,7 +176,7 @@ def get_cmv(
         check_lic_2(),
         check_lic_3(),
         check_lic_4(),
-        check_lic_5(),
+        check_lic_5(points),
         check_lic_6(num_points, points, parameters),
         check_lic_7(),
         check_lic_8(),
