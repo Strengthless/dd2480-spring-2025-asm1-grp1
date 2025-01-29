@@ -133,8 +133,82 @@ class CMVTests(unittest.TestCase):
             {"x": 1.0, "y": 2.0},
         ]
         num_points = len(points)
-
         self.assertFalse(cmv.check_lic_0(num_points, points, params))
+
+
+    def test_lic_5_should_fail_if_points_are_increasingly_far(self):
+        points = [
+            {"x": 0, "y": 1},
+            {"x": 1, "y": 1},
+            {"x": 2, "y": 1},
+            {"x": 3, "y": 1},
+        ]
+        self.assertFalse(
+            cmv.check_lic_5(points), "LIC 5: Points are increasingly far away (x1 > x2)"
+        )
+
+    def test_lic_5_should_pass_if_points_are_increasingly_close(self):
+        points = [
+            {"x": 3, "y": 1},
+            {"x": 2, "y": 1},
+            {"x": 1, "y": 1},
+            {"x": 0, "y": 1},
+        ]
+        self.assertTrue(
+            cmv.check_lic_5(points), "LIC 5: Points are increasingly close (x1 < x2)"
+        )
+
+    def test_lic_5_should_fail_if_points_have_the_same_coordinates(self):
+        points = [
+            {"x": 1, "y": 1},
+            {"x": 1, "y": 1},
+            {"x": 1, "y": 1},
+            {"x": 1, "y": 1},
+        ]
+        self.assertFalse(
+            cmv.check_lic_5(points), "LIC 5: Points are the same (x1 = x2)"
+        )
+
+    # LIC 6 test cases
+    def test_lic_6_should_fail_if_points_are_close_to_line(self):
+        parameters = {"dist": 1, "n_pts": 3}
+        points = [
+            {"x": 0, "y": 0},
+            {"x": 1, "y": 1},
+            {"x": 4, "y": 0},
+            {"x": 5, "y": 1},
+        ]
+        num_points = len(points)
+        self.assertFalse(
+            cmv.check_lic_6(num_points, points, parameters),
+            "LIC 6: Points that are compared with dist will be close to the two created lines",
+        )
+
+    def test_lic_6_should_pass_if_points_are_far_away_from_line(self):
+        parameters = {"dist": 2, "n_pts": 3}
+        points = [{"x": 0, "y": 0}, {"x": 2, "y": 4}, {"x": 4, "y": 0}]
+        num_points = len(points)
+        self.assertTrue(
+            cmv.check_lic_6(num_points, points, parameters),
+            "LIC 6: The point compared with dist will be far away from the line",
+        )
+
+    def test_lic_6_should_pass_if_point_is_far_away_from_line_point(self):
+        parameters = {"dist": 2, "n_pts": 3}
+        points = [{"x": 0, "y": 0}, {"x": 2, "y": 2}, {"x": 0, "y": 0}]
+        num_points = len(points)
+        self.assertTrue(
+            cmv.check_lic_6(num_points, points, parameters),
+            "LIC 6: The point compared with dist will be far away from the line-point, the two points for the line are the same",
+        )
+
+    def test_lic_6_should_fail_if_input_is_illegal(self):
+        parameters = {"dist": -4, "n_pts": 2}
+        points = [{"x": 0, "y": 0}, {"x": 2, "y": 2}]
+        num_points = len(points)
+        self.assertFalse(
+            cmv.check_lic_6(num_points, points, parameters), "LIC 6: Illegal input"
+        )
 
     def test_lic_7_invalid_input(self):
         parameters = {"k_pts": 0, "length1": -5}
@@ -150,6 +224,7 @@ class CMVTests(unittest.TestCase):
             "LIC 7: invalid input (k_pts < 1 & negative length)",
         )
 
+    # LIC 7 test cases
     def test_lic_7_should_fail_if_distance_is_not_enough(self):
         parameters = {"k_pts": 1, "length1": 5}
         points = [
@@ -179,7 +254,7 @@ class CMVTests(unittest.TestCase):
             cmv.check_lic_7(num_points, points, parameters),
             "LIC 7: distance between two points > length1",
         )
-
+        
     # LIC 10 test cases
     def test_lic_10_should_pass_if_area_gt_area1(self):
         parameters = {"area1": 1, "e_pts": 3, "f_pts": 4}
@@ -271,6 +346,70 @@ class CMVTests(unittest.TestCase):
             cmv.check_lic_11(num_points, points, parameters),
             "LIC returns false because g_pts (5) > num_points - 2 (4).",
         )
+
+    # LIC 12 test cases
+    def test_lic_12_should_pass_if_length_gt_length1_lt_length2(self):
+        parameters = {"k_pts": 3, "length1": 5, "length2": 3}
+        points = [
+            {"x": 0, "y": 0},
+            {"x": 0, "y": 0},
+            {"x": 0, "y": 0},
+            {"x": 0, "y": 6},
+            {"x": 0, "y": 0},
+            {"x": 0, "y": 0},
+            {"x": 0, "y": 0},
+            {"x": 0, "y": 0},
+            {"x": 0, "y": 0},
+            {"x": 0, "y": 0},
+            {"x": 0, "y": 0},
+            {"x": 0, "y": 0},
+        ]  # True
+        num_points = len(points)
+        self.assertTrue(cmv.check_lic_12(num_points, points, parameters))
+
+    def test_lic_12_should_fail_if_length_lt_length1_gt_length2(self):
+        parameters = {"k_pts": 3, "length1": 5, "length2": 3}
+        points = [
+            {"x": 0, "y": 0},
+            {"x": 0, "y": 0},
+            {"x": 0, "y": 0},
+            {"x": 0, "y": 4},
+            {"x": 0, "y": 0},
+            {"x": 3, "y": 0},
+            {"x": 0, "y": 0},
+            {"x": 0, "y": 0},
+            {"x": 0, "y": 0},
+            {"x": 0, "y": 0},
+            {"x": 0, "y": 0},
+            {"x": 0, "y": 0},
+        ]  # False
+        num_points = len(points)
+        self.assertFalse(cmv.check_lic_12(num_points, points, parameters))
+
+    def test_lic_12_should_fail_if_length2_lt_0(self):
+        points = [
+            {"x": 0, "y": 0},
+            {"x": 0, "y": 0},
+            {"x": 0, "y": 0},
+            {"x": 0, "y": 6},
+            {"x": 0, "y": 0},
+            {"x": 0, "y": 0},
+            {"x": 0, "y": 0},
+            {"x": 0, "y": 0},
+            {"x": 0, "y": 0},
+            {"x": 0, "y": 0},
+            {"x": 0, "y": 0},
+            {"x": 0, "y": 0},
+        ]
+        parameters = {"k_pts": 3, "length1": 5, "length2": -1}
+        num_points = len(points)
+        self.assertFalse(cmv.check_lic_12(num_points, points, parameters))
+
+    def test_lic_12_should_fail_if_num_points_lt_3(self):
+        parameters = {"k_pts": 3, "length1": 5, "length2": 3}
+        points = [{"x": 0, "y": 0}, {"x": 0, "y": 0}]
+        num_points = len(points)
+        self.assertFalse(cmv.check_lic_12(num_points, points, parameters))
 
 
 class FUVTest(unittest.TestCase):
