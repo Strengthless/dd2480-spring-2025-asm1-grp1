@@ -602,6 +602,72 @@ class FUVTest(unittest.TestCase):
         fuv = get_fuv(pum=pum, puv=puv)
         self.assertEqual(fuv, expectedResult)
 
+    def test_fuv_should_be_a_certain_value_given_specific_pattern_with_puv_mostly_true(
+        self,
+    ):
+        # generate test data
+        puv = [True] * 15
+        puv[3] = False
+        puv[5] = False
+        puv[8] = False
+        pum_false_pos = [
+            (1, 0),
+            (0, 1),
+            (0, 3),
+            (3, 0),
+            (4, 5),
+            (5, 4),
+            (6, 4),
+            (4, 6),
+            (14, 2),
+            (2, 14),
+        ]
+        fuv_false_pos = [0, 1, 2, 4, 6, 14]
+        pum = [[(i, j) not in pum_false_pos for j in range(15)] for i in range(15)]
+        expectedResult = [i not in fuv_false_pos for i in range(15)]
+
+        # get fuv
+        fuv = get_fuv(pum=pum, puv=puv)
+        self.assertEqual(fuv, expectedResult)
+
+    def test_fuv_should_be_a_certain_value_given_specific_pattern_with_puv_mostly_false(
+        self,
+    ):
+        # generate test data
+        puv = [False] * 15
+        puv[6] = True
+        puv[3] = True
+        puv[8] = True
+        pum_false_pos = [
+            (1, 0),
+            (0, 1),
+            (0, 3),
+            (3, 0),
+            (4, 5),
+            (5, 4),
+            (6, 4),
+            (4, 6),
+            (15, 2),
+            (2, 15),
+        ]
+        fuv_false_pos = [3, 6]
+        pum = [[(i, j) not in pum_false_pos for j in range(15)] for i in range(15)]
+        expectedResult = [i not in fuv_false_pos for i in range(15)]
+
+        # get fuv
+        fuv = get_fuv(pum=pum, puv=puv)
+        self.assertEqual(fuv, expectedResult)
+
+    def test_fuv_throw_exception_when_puv_dimension_mismatch(self):
+        puv = [False] * 14  # wrong dimension
+        pum = [[True] * 15] * 15
+        self.assertRaises(ValueError, get_fuv, pum, puv)
+
+    def test_fuv_throw_exception_when_pum_dimension_mismatch(self):
+        puv = [False] * 15
+        pum = [[True] * 15] * 14  # wrong dimension
+        self.assertRaises(ValueError, get_fuv, pum, puv)
+
 
 class PUMTest(unittest.TestCase):
     def setUp(self):
