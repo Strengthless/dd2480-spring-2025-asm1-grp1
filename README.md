@@ -66,7 +66,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam nec eros orci. 
 
 ### Marcello Krahforst
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam nec eros orci. Nunc euismod et nulla eu pretium. Aenean vitae nisl dictum, semper nunc vel, faucibus velit. Proin eu viverra ante. Cras maximus enim odio, at pretium enim fermentum at. Nulla non ligula enim. Nullam eget lacus eget ex lacinia tempor sit amet quis est. Praesent eleifend erat eget magna feugiat congue. Cras accumsan neque eget erat consequat gravida. Cras posuere metus eget est tristique imperdiet.
+I was mainly responsible for implementing the _FUV_ and _PUM_ component, thus I mostly modified the _modules/pum.py_ and _modules/fuv.py_ files and created respective tests for the implemented functions in _test.py_. Besides that, I occasionally reviewed code in Pull Requests and suggested changes or tested the code that was about to be merged into the main branch. Finally, I helped in documenting our way-of-working.
 
 ### Arvid Hjort
 
