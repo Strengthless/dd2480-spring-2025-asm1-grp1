@@ -172,14 +172,14 @@ def check_lic_13(
         point_j = points[i + a_pts + 1]
         point_k = points[i + a_pts + b_pts + 2]
 
-        centriod = [
+        centroid = [
             (point_i["x"] + point_j["x"] + point_k["x"]) / 3,
             (point_i["y"] + point_j["y"] + point_k["y"]) / 3,
         ]
 
-        vector_1 = [point_i["x"] - centriod[0], point_i["y"] - centriod[0]]
-        vector_2 = [point_j["x"] - centriod[0], point_j["y"] - centriod[0]]
-        vector_3 = [point_k["x"] - centriod[0], point_k["y"] - centriod[0]]
+        vector_1 = [point_i["x"] - centroid[0], point_i["y"] - centroid[0]]
+        vector_2 = [point_j["x"] - centroid[0], point_j["y"] - centroid[0]]
+        vector_3 = [point_k["x"] - centroid[0], point_k["y"] - centroid[0]]
 
         # Calculate the length of the vectors 1,2 and 3
 
