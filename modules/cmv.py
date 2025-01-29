@@ -1,4 +1,3 @@
-import math
 from modules.types import Coordinate, Parameters
 import numpy as np
 
