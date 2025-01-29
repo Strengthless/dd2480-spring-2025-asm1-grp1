@@ -355,10 +355,10 @@ class CMVTests(unittest.TestCase):
             {"x": 0, "y": 0},
             {"x": 0, "y": 0},
             {"x": 0, "y": 0},
+            {"x": 2.5, "y": 0},
             {"x": 0, "y": 0},
             {"x": 0, "y": 0},
-            {"x": 0, "y": 0},
-            {"x": 0, "y": 0},
+            {"x": 0, "y": 2},
         ]  # False
         num_points = len(points)
         self.assertFalse(cmv.check_lic_14(num_points, points, parameters))
