@@ -31,8 +31,28 @@ def check_lic_2() -> bool:
     return False
 
 
-def check_lic_3() -> bool:
-    # TODO: Update the function signature and implementation
+def check_lic_3(points: list[Coordinate], parameters: Parameters) -> bool:
+    if len(points) < 3 or parameters["area1"] < 0:
+        return False
+
+    for i in range(len(points) - 2):
+        point_a = points[i]
+        point_b = points[i + 1]
+        point_c = points[i + 2]
+
+        x_a = point_a["x"]
+        x_b = point_b["x"]
+        x_c = point_c["x"]
+
+        y_a = point_a["y"]
+        y_b = point_b["y"]
+        y_c = point_c["y"]
+
+        area_triangle = (
+            abs(x_a * (y_b - y_c) + x_b * (y_c - y_a) + x_c * (y_a - y_b)) * 1 / 2
+        )
+        if area_triangle > parameters["area1"]:
+            return True
     return False
 
 

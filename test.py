@@ -135,6 +135,32 @@ class CMVTests(unittest.TestCase):
         num_points = len(points)
         self.assertFalse(cmv.check_lic_0(num_points, points, params))
 
+    def test_lic_3_should_fail_if_area_pts_less_than_param(self):
+        params = {"area1": 0.6}
+        points = [
+            {"x": 0.0, "y": 1.0},
+            {"x": 1.0, "y": 0.0},
+            {"x": 0.0, "y": 0.0},
+            {"x": 3, "y": 1},
+        ]
+        self.assertFalse(
+            cmv.check_lic_3(points, params),
+            "LIC 3: Area1 is greater than area from points",
+        )
+
+    def test_lic_3_should_pass_if_area_pts_greater_than_param(self):
+        params = {"area1": 1.9}
+        points = [
+            {"x": 0.0, "y": 2.0},
+            {"x": 2.0, "y": 0.0},
+            {"x": 0.0, "y": 0.0},
+            {"x": 0.0, "y": 0.0},
+        ]
+        self.assertTrue(
+            cmv.check_lic_3(points, params),
+            "LIC 3: Area1 is less than area from points",
+        )
+
     def test_lic_5_should_fail_if_points_are_increasingly_far(self):
         points = [
             {"x": 0, "y": 1},
