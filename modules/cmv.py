@@ -60,8 +60,48 @@ def check_lic_8() -> bool:
     return False
 
 
-def check_lic_9() -> bool:
-    # TODO: Update the function signature and implementation
+def check_lic_9(
+    num_points: int, points: list[Coordinate], parameters: Parameters
+) -> bool:
+    c_pts = parameters["c_pts"]
+    d_pts = parameters["d_pts"]
+    epsilon = parameters["epsilon"]
+
+    if (
+        (c_pts + d_pts > num_points - 3)
+        or (1 > c_pts)
+        or (1 > d_pts)
+        or (epsilon < 0)
+        or (num_points < 5)
+    ):
+        return False
+
+    for i in range(num_points - c_pts - d_pts - 2):
+        first_vertex = np.array([points[i]["x"], points[i]["y"]], dtype=float)
+        angle_vertex = np.array(
+            [points[i + c_pts + 1]["x"], points[i + c_pts + 1]["y"]], dtype=float
+        )
+        last_vertex = np.array(
+            [points[i + c_pts + d_pts + 2]["x"], points[i + c_pts + d_pts + 2]["y"]],
+            dtype=float,
+        )
+
+        if np.array_equal(first_vertex, angle_vertex) or np.array_equal(
+            last_vertex, angle_vertex
+        ):
+            continue
+
+        a_vector = first_vertex - angle_vertex
+        b_vector = last_vertex - angle_vertex
+
+        a_distance = np.linalg.norm(a_vector)
+        b_distance = np.linalg.norm(b_vector)
+
+        cosine_theta = np.dot(a_vector, b_vector) / (a_distance * b_distance)
+        angle = np.acos(cosine_theta)
+
+        if angle < (np.pi - epsilon) or angle > (np.pi + epsilon):
+            return True
     return False
 
 
