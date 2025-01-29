@@ -356,8 +356,45 @@ def check_lic_13(
     return False
 
 
-def check_lic_14() -> bool:
-    # TODO: Update the function signature and implementation
+def check_lic_14(
+    num_points: int, points: list[Coordinate], parameters: Parameters
+) -> bool:
+    area1 = parameters["area1"]
+    area2 = parameters["area2"]
+    e_pts = parameters["e_pts"]
+    f_pts = parameters["f_pts"]
+
+    if (num_points < 5) or (area2 < 0):
+        return False
+
+    flag_1 = False
+    flag_2 = False
+
+    for i in range(len(points) - e_pts - f_pts - 2):
+
+        # Calculate the area of the triangle that is defined by the two vectors formed by the point i to the point j and k respectively
+
+        j = i + e_pts + 1
+        k = i + e_pts + f_pts + 2
+
+        coord_1 = points[i]
+        coord_2 = points[j]
+        coord_3 = points[k]
+
+        vector_1 = [coord_2["x"] - coord_1["x"], coord_2["y"] - coord_1["y"]]
+        vector_2 = [coord_3["x"] - coord_1["x"], coord_3["y"] - coord_1["y"]]
+
+        calc_area = abs((1 / 2) * np.cross(vector_1, vector_2))
+
+        if calc_area > area1:
+            flag_1 = True
+
+        if calc_area < area2:
+            flag_2 = True
+
+        if flag_1 and flag_2:
+            return True
+
     return False
 
 
@@ -380,5 +417,5 @@ def get_cmv(
         check_lic_11(num_points, points, parameters),
         check_lic_12(),
         check_lic_13(num_points, points, parameters),
-        check_lic_14(),
+        check_lic_14(num_points, points, parameters),
     ]
