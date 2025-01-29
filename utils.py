@@ -35,6 +35,23 @@ def get_triangle_area_from_np_points(
     return np.sqrt(s * (s - a) * (s - b) * (s - c))
 
 
+def get_angle_from_np_points(
+    x_point: np.ndarray, y_point: np.ndarray, z_point: np.ndarray
+) -> float:
+    """
+    Get the angle between the two lines formed by the three points.
+
+    :param x_point: First point
+    :param y_point: Second point (the vertex)
+    :param z_point: Third point
+    :return: The angle in radians
+    """
+    a = get_distance_between_np_points(x_point, y_point)
+    b = get_distance_between_np_points(y_point, z_point)
+    c = get_distance_between_np_points(z_point, x_point)
+    return np.arccos((a**2 + b**2 - c**2) / (2 * a * b))
+
+
 def can_three_np_points_fit_in_a_circle(
     x_point: np.ndarray, y_point: np.ndarray, z_point: np.ndarray, target_radius: float
 ) -> bool:

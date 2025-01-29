@@ -4,6 +4,7 @@ import numpy as np
 from utils import (
     can_three_np_points_fit_in_a_circle,
     convert_to_np_point,
+    get_angle_from_np_points,
     get_distance_between_np_points,
     get_triangle_area_from_np_points,
     np_points_equal,
@@ -158,30 +159,20 @@ def check_lic_9(
         return False
 
     for i in range(num_points - c_pts - d_pts - 2):
-        first_vertex = np.array([points[i]["x"], points[i]["y"]], dtype=float)
-        angle_vertex = np.array(
-            [points[i + c_pts + 1]["x"], points[i + c_pts + 1]["y"]], dtype=float
-        )
-        last_vertex = np.array(
-            [points[i + c_pts + d_pts + 2]["x"], points[i + c_pts + d_pts + 2]["y"]],
-            dtype=float,
-        )
+        first_vertex = convert_to_np_point(points[i])
+        angle_vertex = convert_to_np_point(points[i + c_pts + 1])
+        last_vertex = convert_to_np_point(points[i + c_pts + d_pts + 2])
 
-        if np.array_equal(first_vertex, angle_vertex) or np.array_equal(
-            last_vertex, angle_vertex
-        ):
+        if np_points_equal(first_vertex, angle_vertex):
+            continue
+        if np_points_equal(last_vertex, angle_vertex):
             continue
 
-        a_vector = first_vertex - angle_vertex
-        b_vector = last_vertex - angle_vertex
+        angle = get_angle_from_np_points(first_vertex, angle_vertex, last_vertex)
 
-        a_distance = np.linalg.norm(a_vector)
-        b_distance = np.linalg.norm(b_vector)
-
-        cosine_theta = np.dot(a_vector, b_vector) / (a_distance * b_distance)
-        angle = np.acos(cosine_theta)
-
-        if angle < (np.pi - epsilon) or angle > (np.pi + epsilon):
+        if angle < (np.pi - epsilon):
+            return True
+        if angle > (np.pi + epsilon):
             return True
     return False
 
@@ -319,25 +310,16 @@ def check_lic_14(
     flag_2 = False
 
     for i in range(len(points) - e_pts - f_pts - 2):
+        point_i = convert_to_np_point(points[i])
+        point_j = convert_to_np_point(points[i + e_pts + 1])
+        point_k = convert_to_np_point(points[i + e_pts + f_pts + 2])
 
-        # Calculate the area of the triangle that is defined by the two vectors formed by the point i to the point j and k respectively
+        area = get_triangle_area_from_np_points(point_i, point_j, point_k)
 
-        j = i + e_pts + 1
-        k = i + e_pts + f_pts + 2
-
-        coord_1 = points[i]
-        coord_2 = points[j]
-        coord_3 = points[k]
-
-        vector_1 = [coord_2["x"] - coord_1["x"], coord_2["y"] - coord_1["y"]]
-        vector_2 = [coord_3["x"] - coord_1["x"], coord_3["y"] - coord_1["y"]]
-
-        calc_area = abs((1 / 2) * np.cross(vector_1, vector_2))
-
-        if calc_area > area1:
+        if area > area1:
             flag_1 = True
 
-        if calc_area < area2:
+        if area < area2:
             flag_2 = True
 
         if flag_1 and flag_2:
