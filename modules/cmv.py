@@ -44,11 +44,11 @@ def check_lic_2(points, parameters) -> bool:
         vector_1 = [point_1["x"] - vertex["x"], point_1["y"] - vertex["y"]]
         vector_2 = [point_2["x"] - vertex["x"], point_2["y"] - vertex["y"]]
 
-        cos_angle = np.dot(vector_1, vector_2) / (
-            np.linalg.norm(vector_1) * np.linalg.norm(vector_1)
+        angle = np.dot(vector_1, vector_2) / (
+            np.linalg.norm(vector_1) * np.linalg.norm(vector_2)
         )
 
-        if cos_angle > np.cos(np.pi - parameters["epsilon"]) or cos_angle < np.cos(
+        if angle > np.cos(np.pi - parameters["epsilon"]) or angle < np.cos(
             np.pi + parameters["epsilon"]
         ):
             return True

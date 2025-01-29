@@ -6,6 +6,7 @@ from modules.pum import get_pum
 from modules.types import Connectors, Coordinate
 from snapshottest import TestCase
 import modules.cmv as cmv
+import numpy as np
 
 
 class MainTests(TestCase):
@@ -136,12 +137,32 @@ class CMVTests(unittest.TestCase):
         self.assertFalse(cmv.check_lic_0(num_points, points, params))
 
     def test_lic_2_should_fail_epsilon_gt_pi(self):
-        params = {"epsilon": 4.0}
+        params = {"epsilon": np.deg2rad(181)}
         points = self.mock_points_a1
 
         self.assertFalse(
             cmv.check_lic_2(points, params), "LIC 2: Epsilon is greater than PI"
         )
+
+    def test_lic_2_should_fail_not_enough_points(self):
+        params = {"epsilon": 2.0}
+        points = [{"x": 0, "y": 1}, {"x": 1, "y": 1}]
+
+        self.assertFalse(cmv.check_lic_2(points, params), "LIC 2: Not enough points")
+
+    def test_lic_2_should_fail_cos_angle_outside_req(self):
+        params = {"epsilon": np.deg2rad(45)}
+        points = [{"x": -2, "y": 1}, {"x": 1, "y": 1}, {"x": 4, "y": 4}]
+
+        self.assertFalse(
+            cmv.check_lic_2(points, params), "LIC 2: Angle between vectors "
+        )
+
+    def test_lic_2_should_pass(self):
+        params = {"epsilon": np.deg2rad(20)}
+        points = [{"x": -2, "y": -2}, {"x": 1, "y": 1}, {"x": 4, "y": 4}]
+
+        self.assertTrue(cmv.check_lic_2(points, params))
 
     def test_lic_5_should_fail_if_points_are_increasingly_far(self):
         points = [
