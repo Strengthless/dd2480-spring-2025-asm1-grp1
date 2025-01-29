@@ -84,8 +84,26 @@ def check_lic_6(
     return False
 
 
-def check_lic_7() -> bool:
-    # TODO: Update the function signature and implementation
+def check_lic_7(
+    num_points: int, points: list[Coordinate], parameters: Parameters
+) -> bool:
+    k_pts = parameters["k_pts"]
+    length1 = parameters["length1"]
+
+    if num_points < 3 or not (1 <= k_pts <= (num_points - 2)) or length1 < 0:
+        return False
+
+    for i in range(num_points - k_pts - 1):
+        first_point = np.array([points[i]["x"], points[i]["y"]], dtype=float)
+        last_point = np.array(
+            [points[i + k_pts + 1]["x"], points[i + k_pts + 1]["y"]], dtype=float
+        )
+
+        first_last_distance = np.linalg.norm(first_point - last_point)
+
+        if first_last_distance > length1:
+            return True
+
     return False
 
 
@@ -207,7 +225,7 @@ def get_cmv(
         check_lic_4(),
         check_lic_5(points),
         check_lic_6(num_points, points, parameters),
-        check_lic_7(),
+        check_lic_7(num_points, points, parameters),
         check_lic_8(),
         check_lic_9(),
         check_lic_10(num_points, points, parameters),

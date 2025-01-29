@@ -209,6 +209,51 @@ class CMVTests(unittest.TestCase):
             cmv.check_lic_6(num_points, points, parameters), "LIC 6: Illegal input"
         )
 
+    def test_lic_7_invalid_input(self):
+        parameters = {"k_pts": 0, "length1": -5}
+        points = [
+            {"x": 1, "y": 2},
+            {"x": 1, "y": 2},
+            {"x": 2, "y": 2},
+        ]
+        num_points = len(points)
+
+        self.assertFalse(
+            cmv.check_lic_7(num_points, points, parameters),
+            "LIC 7: invalid input (k_pts < 1 & negative length)",
+        )
+
+    # LIC 7 test cases
+    def test_lic_7_should_fail_if_distance_is_not_enough(self):
+        parameters = {"k_pts": 1, "length1": 5}
+        points = [
+            {"x": 1, "y": 2},
+            {"x": 2, "y": 2},
+            {"x": 1, "y": 2},
+            {"x": 1, "y": 2},
+        ]
+        num_points = len(points)
+
+        self.assertFalse(
+            cmv.check_lic_7(num_points, points, parameters),
+            "LIC 7: distance between two points <= length1",
+        )
+
+    def test_lic_7_should_pass_if_distance_is_enough(self):
+        parameters = {"k_pts": 1, "length1": 3}
+        points = [
+            {"x": 2, "y": 2},
+            {"x": 2, "y": 2},
+            {"x": 1, "y": 2},
+            {"x": 5, "y": 5},
+        ]
+        num_points = len(points)
+
+        self.assertTrue(
+            cmv.check_lic_7(num_points, points, parameters),
+            "LIC 7: distance between two points > length1",
+        )
+
     # LIC 10 test cases
     def test_lic_10_should_pass_if_area_gt_area1(self):
         parameters = {"area1": 1, "e_pts": 3, "f_pts": 4}
