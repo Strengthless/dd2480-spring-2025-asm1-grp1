@@ -266,8 +266,53 @@ def check_lic_12(
     return False
 
 
-def check_lic_13() -> bool:
-    # TODO: Update the function signature and implementation
+def check_lic_13(
+    num_points: int, points: list[Coordinate], parameters: Parameters
+) -> bool:
+    a_pts = parameters["a_pts"]
+    b_pts = parameters["b_pts"]
+    radius1 = parameters["radius1"]
+    radius2 = parameters["radius2"]
+
+    if (radius2 < 0) or (num_points < 5):
+        return False
+
+    flag_1 = False
+    flag_2 = False
+
+    for i in range(len(points) - a_pts - b_pts - 2):
+
+        # Create the three vectors formed between the points i j and k respectively
+        point_i = points[i]
+        point_j = points[i + a_pts + 1]
+        point_k = points[i + a_pts + b_pts + 2]
+
+        centroid = [
+            (point_i["x"] + point_j["x"] + point_k["x"]) / 3,
+            (point_i["y"] + point_j["y"] + point_k["y"]) / 3,
+        ]
+
+        vector_1 = [point_i["x"] - centroid[0], point_i["y"] - centroid[0]]
+        vector_2 = [point_j["x"] - centroid[0], point_j["y"] - centroid[0]]
+        vector_3 = [point_k["x"] - centroid[0], point_k["y"] - centroid[0]]
+
+        # Calculate the length of the vectors 1,2 and 3
+
+        length1 = abs(np.linalg.norm(vector_1))
+        length2 = abs(np.linalg.norm(vector_2))
+        length3 = abs(np.linalg.norm(vector_3))
+
+        max_radius = max(length1, length2, length3)
+
+        if max_radius > radius1:
+            flag_1 = True
+
+        if max_radius < radius2:
+            flag_2 = True
+
+        if flag_1 and flag_2:
+            return True
+
     return False
 
 
@@ -294,6 +339,6 @@ def get_cmv(
         check_lic_10(num_points, points, parameters),
         check_lic_11(num_points, points, parameters),
         check_lic_12(),
-        check_lic_13(),
+        check_lic_13(num_points, points, parameters),
         check_lic_14(),
     ]
