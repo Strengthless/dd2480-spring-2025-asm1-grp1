@@ -135,6 +135,18 @@ class CMVTests(unittest.TestCase):
         num_points = len(points)
         self.assertFalse(cmv.check_lic_0(num_points, points, params))
 
+    def test_lic_4_should_pass_if_nr_quads_gt_param_quads(self):
+        params = {"quads": 2, "q_pts": 3}
+        points: list[Coordinate] = [
+            {"x": 0.0, "y": 2.0},
+            {"x": 0.0, "y": 0.0},
+            {"x": -1.0, "y": 0.0},
+            {"x": 1.0, "y": -1.0},
+            {"x": 1.0, "y": 1.0},
+        ]
+        num_points = len(points)
+        self.assertTrue(cmv.check_lic_4(num_points, points, params))
+
     def test_lic_5_should_fail_if_points_are_increasingly_far(self):
         points = [
             {"x": 0, "y": 1},
