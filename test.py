@@ -135,6 +135,7 @@ class CMVTests(unittest.TestCase):
         num_points = len(points)
         self.assertFalse(cmv.check_lic_0(num_points, points, params))
 
+    # LIC 5 test cases
     def test_lic_5_should_fail_if_points_are_increasingly_far(self):
         points = [
             {"x": 0, "y": 1},
@@ -166,6 +167,196 @@ class CMVTests(unittest.TestCase):
         ]
         self.assertFalse(
             cmv.check_lic_5(points), "LIC 5: Points are the same (x1 = x2)"
+        )
+
+    # LIC 6 test cases
+    def test_lic_6_should_fail_if_points_are_close_to_line(self):
+        parameters = {"dist": 1, "n_pts": 3}
+        points = [
+            {"x": 0, "y": 0},
+            {"x": 1, "y": 1},
+            {"x": 4, "y": 0},
+            {"x": 5, "y": 1},
+        ]
+        num_points = len(points)
+        self.assertFalse(
+            cmv.check_lic_6(num_points, points, parameters),
+            "LIC 6: Points that are compared with dist will be close to the two created lines",
+        )
+
+    def test_lic_6_should_pass_if_points_are_far_away_from_line(self):
+        parameters = {"dist": 2, "n_pts": 3}
+        points = [{"x": 0, "y": 0}, {"x": 2, "y": 4}, {"x": 4, "y": 0}]
+        num_points = len(points)
+        self.assertTrue(
+            cmv.check_lic_6(num_points, points, parameters),
+            "LIC 6: The point compared with dist will be far away from the line",
+        )
+
+    def test_lic_6_should_pass_if_point_is_far_away_from_line_point(self):
+        parameters = {"dist": 2, "n_pts": 3}
+        points = [{"x": 0, "y": 0}, {"x": 2, "y": 2}, {"x": 0, "y": 0}]
+        num_points = len(points)
+        self.assertTrue(
+            cmv.check_lic_6(num_points, points, parameters),
+            "LIC 6: The point compared with dist will be far away from the line-point, the two points for the line are the same",
+        )
+
+    def test_lic_6_should_fail_if_input_is_illegal(self):
+        parameters = {"dist": -4, "n_pts": 2}
+        points = [{"x": 0, "y": 0}, {"x": 2, "y": 2}]
+        num_points = len(points)
+        self.assertFalse(
+            cmv.check_lic_6(num_points, points, parameters), "LIC 6: Illegal input"
+        )
+
+    # LIC 7 test cases
+    def test_lic_7_invalid_input(self):
+        parameters = {"k_pts": 0, "length1": -5}
+        points = [
+            {"x": 1, "y": 2},
+            {"x": 1, "y": 2},
+            {"x": 2, "y": 2},
+        ]
+        num_points = len(points)
+
+        self.assertFalse(
+            cmv.check_lic_7(num_points, points, parameters),
+            "LIC 7: invalid input (k_pts < 1 & negative length)",
+        )
+
+    def test_lic_7_should_fail_if_distance_is_not_enough(self):
+        parameters = {"k_pts": 1, "length1": 5}
+        points = [
+            {"x": 1, "y": 2},
+            {"x": 2, "y": 2},
+            {"x": 1, "y": 2},
+            {"x": 1, "y": 2},
+        ]
+        num_points = len(points)
+
+        self.assertFalse(
+            cmv.check_lic_7(num_points, points, parameters),
+            "LIC 7: distance between two points <= length1",
+        )
+
+    def test_lic_7_should_pass_if_distance_is_enough(self):
+        parameters = {"k_pts": 1, "length1": 3}
+        points = [
+            {"x": 2, "y": 2},
+            {"x": 2, "y": 2},
+            {"x": 1, "y": 2},
+            {"x": 5, "y": 5},
+        ]
+        num_points = len(points)
+
+        self.assertTrue(
+            cmv.check_lic_7(num_points, points, parameters),
+            "LIC 7: distance between two points > length1",
+        )
+
+    def test_lic_8_should_pass_if_obtuse_triangles_are_considered(self):
+        parameters = {"a_pts": 1, "b_pts": 1, "radius1": 10}
+        points = [
+            {"x": 6, "y": 5},
+            {"x": 2, "y": 4},
+            {"x": 5, "y": 1},
+            {"x": 10, "y": 13},
+            {"x": 2, "y": 5},
+            {"x": 3, "y": 5},
+        ]
+        num_points = len(points)
+
+        self.assertFalse(
+            cmv.check_lic_8(num_points, points, parameters),
+            "LIC 8: Obtuse triangle",
+        )
+
+    def test_lic_8_should_fail_if_radius1_is_greater_than_triangle_circumcircle(self):
+        parameters = {"a_pts": 1, "b_pts": 1, "radius1": 15}
+        points = [
+            {"x": 6, "y": 5},
+            {"x": 2, "y": 4},
+            {"x": 5, "y": 1},
+            {"x": 10, "y": 13},
+            {"x": 2, "y": 5},
+            {"x": 3, "y": 10},
+        ]
+        num_points = len(points)
+
+        self.assertFalse(
+            cmv.check_lic_8(num_points, points, parameters),
+            "LIC 8: Radius1 > circumcircle radius",
+        )
+
+    def test_lic_8_should_fail_if_radius1_equals_triangle_circumcircle(self):
+        parameters = {"a_pts": 1, "b_pts": 2, "radius1": 5}
+        points = [
+            {"x": 0, "y": 0},
+            {"x": 2, "y": 4},
+            {"x": 6, "y": 0},
+            {"x": 10, "y": 13},
+            {"x": 2, "y": 5},
+            {"x": 0, "y": 8},
+        ]
+        num_points = len(points)
+
+        self.assertFalse(
+            cmv.check_lic_8(num_points, points, parameters),
+            "LIC 8: Radius1 == circumcircle radius",
+        )
+
+    def test_lic_8_should_pass_if_radius1_is_less_than_triangle_circumcircle(self):
+        parameters = {"a_pts": 2, "b_pts": 1, "radius1": 4}
+        points = [
+            {"x": 6, "y": 5},
+            {"x": 2, "y": 4},
+            {"x": 5, "y": 1},
+            {"x": 10, "y": 13},
+            {"x": 2, "y": 5},
+            {"x": 3, "y": 5},
+        ]
+        num_points = len(points)
+
+        self.assertTrue(
+            cmv.check_lic_8(num_points, points, parameters),
+            "LIC 8: Radius1 < circumcircle radius",
+        )
+
+    def test_lic_8_should_fail_if_input_is_illegal(self):
+        parameters = {"a_pts": 0.5, "b_pts": 10, "radius1": -5}
+        points = [{"x": 1, "y": 1}]
+        num_points = len(points)
+
+        self.assertFalse(
+            cmv.check_lic_8(num_points, points, parameters),
+            "LIC 8: Illegal input",
+        )
+
+    def test_lic_8_should_fail_if_points_are_identical(self):
+        parameters = {"a_pts": 2, "b_pts": 2, "radius1": 1}
+        points = [{"x": 1, "y": 1}] * 8
+        num_points = len(points)
+
+        self.assertFalse(
+            cmv.check_lic_8(num_points, points, parameters),
+            "LIC 8: Identical points",
+        )
+
+    def test_lic_8_should_pass_if_colinear_are_regarded(self):
+        parameters = {"a_pts": 1, "b_pts": 1, "radius1": 4}
+        points = [
+            {"x": 1, "y": 1},
+            {"x": 2, "y": 2},
+            {"x": 3, "y": 3},
+            {"x": 5, "y": 5},
+            {"x": 10, "y": 10},
+        ]
+        num_points = len(points)
+
+        self.assertTrue(
+            cmv.check_lic_8(num_points, points, parameters),
+            "LIC 8: Colinear points are regarded as a triangle",
         )
 
     # LIC 10 test cases
@@ -323,6 +514,71 @@ class CMVTests(unittest.TestCase):
         points = [{"x": 0, "y": 0}, {"x": 0, "y": 0}]
         num_points = len(points)
         self.assertFalse(cmv.check_lic_12(num_points, points, parameters))
+
+    # LIC 13 test cases
+    def test_lic_13_should_pass_if_radius_gt_radius1_lt_radius2(self):
+        parameters = {"a_pts": 2, "b_pts": 3, "radius1": 2, "radius2": 2.4}
+        points = [
+            {"x": 0, "y": 0},
+            {"x": 0, "y": 0},
+            {"x": 0, "y": 0},
+            {"x": 0, "y": 3},
+            {"x": 0, "y": 0},
+            {"x": 0, "y": 0},
+            {"x": 0, "y": 0},
+            {"x": 4, "y": 0},
+            {"x": 0, "y": 0},
+            {"x": 0, "y": 0},
+            {"x": 0, "y": 0},
+            {"x": 0, "y": 0},
+        ]  # True
+        num_points = len(points)
+        self.assertTrue(cmv.check_lic_13(num_points, points, parameters))
+
+    def test_lic_13_should_fail_if_radius_lt_radius1_gt_radius2(self):
+        parameters = {"a_pts": 2, "b_pts": 3, "radius1": 2, "radius2": 2.4}
+        points = [
+            {"x": 0, "y": 0},
+            {"x": 0, "y": 10},
+            {"x": 0, "y": 0},
+            {"x": 0, "y": 3},
+            {"x": 0, "y": 0},
+            {"x": 0, "y": 0},
+            {"x": 0, "y": 0},
+            {"x": 4, "y": 0},
+            {"x": 4, "y": 0},
+        ]  # False
+        num_points = len(points)
+        self.assertFalse(cmv.check_lic_13(num_points, points, parameters))
+
+    def test_lic_13_should_fail_if_radius2_lt_0(self):
+        parameters = {"a_pts": 2, "b_pts": 3, "radius1": 2, "radius2": -1}
+        points = [
+            {"x": 0, "y": 0},
+            {"x": 0, "y": 0},
+            {"x": 0, "y": 0},
+            {"x": 0, "y": 3},
+            {"x": 0, "y": 0},
+            {"x": 0, "y": 0},
+            {"x": 0, "y": 0},
+            {"x": 4, "y": 0},
+            {"x": 0, "y": 0},
+            {"x": 0, "y": 0},
+            {"x": 0, "y": 0},
+            {"x": 0, "y": 0},
+        ]  # True
+        num_points = len(points)
+        self.assertFalse(cmv.check_lic_13(num_points, points, parameters))
+
+    def test_lic_13_should_fail_if_num_points_lt_5(self):
+        parameters = {"a_pts": 2, "b_pts": 3, "radius1": 2, "radius2": 2.4}
+        points = [
+            {"x": 0, "y": 0},
+            {"x": 0, "y": 0},
+            {"x": 0, "y": 0},
+        ]
+        num_points = len(points)
+        self.assertFalse(cmv.check_lic_13(num_points, points, parameters))
 
     # LIC 14 test cases
     def test_lic_14_should_pass_if_area_gt_area1_lt_area2(self):

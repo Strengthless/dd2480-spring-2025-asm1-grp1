@@ -45,18 +45,133 @@ def check_lic_5(points: list[Coordinate]) -> bool:
     return any(p2["x"] - p1["x"] < 0 for p1, p2 in zip(points, points[1:]))
 
 
-def check_lic_6() -> bool:
-    # TODO: Update the function signature and implementation
+def check_lic_6(
+    num_points: int, points: list[Coordinate], parameters: Parameters
+) -> bool:
+    n_pts = parameters["n_pts"]
+    dist = parameters["dist"]
+
+    if num_points < 3 or not (3 <= n_pts <= num_points) or dist < 0:
+        return False
+
+    for i in range(len(points) - n_pts + 1):
+        stripped_points = points[i : i + n_pts]
+        first_point = np.array(
+            [stripped_points[0]["x"], stripped_points[0]["y"]], dtype=float
+        )
+        last_point = np.array(
+            [stripped_points[-1]["x"], stripped_points[-1]["y"]], dtype=float
+        )
+
+        for j in range(1, n_pts):
+            current_point = np.array(
+                [stripped_points[j]["x"], stripped_points[j]["y"]], dtype=float
+            )
+
+            if np.array_equal(first_point, last_point):
+                cur_pt_dist_to_pt = np.linalg.norm(first_point - current_point)
+                if cur_pt_dist_to_pt > dist:
+                    return True
+
+            else:
+                ax, ay = last_point - first_point
+                bx, by = first_point - current_point
+                cross_value = ax * by - ay * bx
+                cur_pt_dist_to_line = np.abs(cross_value) / np.linalg.norm([ax, ay])
+
+                if cur_pt_dist_to_line > dist:
+                    return True
     return False
 
 
-def check_lic_7() -> bool:
-    # TODO: Update the function signature and implementation
+def check_lic_7(
+    num_points: int, points: list[Coordinate], parameters: Parameters
+) -> bool:
+    k_pts = parameters["k_pts"]
+    length1 = parameters["length1"]
+
+    if num_points < 3 or not (1 <= k_pts <= (num_points - 2)) or length1 < 0:
+        return False
+
+    for i in range(num_points - k_pts - 1):
+        first_point = np.array([points[i]["x"], points[i]["y"]], dtype=float)
+        last_point = np.array(
+            [points[i + k_pts + 1]["x"], points[i + k_pts + 1]["y"]], dtype=float
+        )
+
+        first_last_distance = np.linalg.norm(first_point - last_point)
+
+        if first_last_distance > length1:
+            return True
+
     return False
 
 
-def check_lic_8() -> bool:
-    # TODO: Update the function signature and implementation
+def check_lic_8(
+    num_points: int, points: list[Coordinate], parameters: Parameters
+) -> bool:
+    a_pts = parameters["a_pts"]
+    b_pts = parameters["b_pts"]
+    radius1 = parameters["radius1"]
+
+    if (
+        (a_pts + b_pts > num_points - 3)
+        or (1 > a_pts)
+        or (1 > b_pts)
+        or (radius1 < 0)
+        or (num_points < 5)
+    ):
+        return False
+
+    for i in range(num_points - a_pts - b_pts - 2):
+        # Using properties of a circumcirle for 3 points creating a triangle.
+        x_point = np.array([points[i]["x"], points[i]["y"]], dtype=float)
+        y_point = np.array(
+            [points[i + a_pts + 1]["x"], points[i + a_pts + 1]["y"]], dtype=float
+        )
+        z_point = np.array(
+            [points[i + a_pts + b_pts + 2]["x"], points[i + a_pts + b_pts + 2]["y"]],
+            dtype=float,
+        )
+        a_distance = np.linalg.norm(x_point - y_point)
+        b_distance = np.linalg.norm(y_point - z_point)
+        c_distance = np.linalg.norm(z_point - x_point)
+
+        triangle_area = (
+            abs(
+                x_point[0] * (y_point[1] - z_point[1])
+                + y_point[0] * (z_point[1] - x_point[1])
+                + z_point[0] * (x_point[1] - y_point[1])
+            )
+            / 2
+        )
+
+        if triangle_area == 0:
+            max_distance = max(a_distance, b_distance, c_distance)
+
+            # Collinear case
+            if max_distance / 2 > radius1:
+                return True
+
+            # Skip if collinear case fitted in radius or the points are the same
+            continue
+
+        circumcircle_radius = (a_distance * b_distance * c_distance) / (
+            4 * triangle_area
+        )
+
+        sides = sorted([a_distance, b_distance, c_distance])
+        a, b, c = sides
+
+        # Acute triangle
+        if c**2 < a**2 + b**2:
+            if circumcircle_radius > radius1:
+                return True
+        # Right or obtuse triangle
+        elif c**2 >= a**2 + b**2:
+            if (c / 2) > radius1:
+                return True
+
     return False
 
 
@@ -151,8 +266,53 @@ def check_lic_12(
     return False
 
 
-def check_lic_13() -> bool:
-    # TODO: Update the function signature and implementation
+def check_lic_13(
+    num_points: int, points: list[Coordinate], parameters: Parameters
+) -> bool:
+    a_pts = parameters["a_pts"]
+    b_pts = parameters["b_pts"]
+    radius1 = parameters["radius1"]
+    radius2 = parameters["radius2"]
+
+    if (radius2 < 0) or (num_points < 5):
+        return False
+
+    flag_1 = False
+    flag_2 = False
+
+    for i in range(len(points) - a_pts - b_pts - 2):
+
+        # Create the three vectors formed between the points i j and k respectively
+        point_i = points[i]
+        point_j = points[i + a_pts + 1]
+        point_k = points[i + a_pts + b_pts + 2]
+
+        centroid = [
+            (point_i["x"] + point_j["x"] + point_k["x"]) / 3,
+            (point_i["y"] + point_j["y"] + point_k["y"]) / 3,
+        ]
+
+        vector_1 = [point_i["x"] - centroid[0], point_i["y"] - centroid[0]]
+        vector_2 = [point_j["x"] - centroid[0], point_j["y"] - centroid[0]]
+        vector_3 = [point_k["x"] - centroid[0], point_k["y"] - centroid[0]]
+
+        # Calculate the length of the vectors 1,2 and 3
+
+        length1 = abs(np.linalg.norm(vector_1))
+        length2 = abs(np.linalg.norm(vector_2))
+        length3 = abs(np.linalg.norm(vector_3))
+
+        max_radius = max(length1, length2, length3)
+
+        if max_radius > radius1:
+            flag_1 = True
+
+        if max_radius < radius2:
+            flag_2 = True
+
+        if flag_1 and flag_2:
+            return True
+
     return False
 
 
@@ -209,13 +369,13 @@ def get_cmv(
         check_lic_3(),
         check_lic_4(),
         check_lic_5(points),
-        check_lic_6(),
-        check_lic_7(),
-        check_lic_8(),
+        check_lic_6(num_points, points, parameters),
+        check_lic_7(num_points, points, parameters),
+        check_lic_8(num_points, points, parameters),
         check_lic_9(),
         check_lic_10(num_points, points, parameters),
         check_lic_11(num_points, points, parameters),
-        check_lic_12(num_points, points, parameters),
-        check_lic_13(),
+        check_lic_12(),
+        check_lic_13(num_points, points, parameters),
         check_lic_14(num_points, points, parameters),
     ]
