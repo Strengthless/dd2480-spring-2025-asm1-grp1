@@ -189,7 +189,7 @@ def get_cmv(
         check_lic_0(num_points, points, parameters),
         check_lic_1(),
         check_lic_2(),
-        check_lic_3(),
+        check_lic_3(points, parameters),
         check_lic_4(),
         check_lic_5(points),
         check_lic_6(),
