@@ -161,6 +161,17 @@ class CMVTests(unittest.TestCase):
             "LIC 3: Area1 is less than area from points",
         )
 
+    def test_lic_3_should_fail_if_not_enough_points(self):
+        params = {"area1": 1.9}
+        points = [
+            {"x": 0.0, "y": 2.0},
+            {"x": 2.0, "y": 0.0},
+        ]
+        self.assertFalse(
+            cmv.check_lic_3(points, params),
+            "LIC 3: Not enough coordinates",
+        )
+
     def test_lic_5_should_fail_if_points_are_increasingly_far(self):
         points = [
             {"x": 0, "y": 1},
