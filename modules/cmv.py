@@ -26,8 +26,32 @@ def check_lic_1() -> bool:
     return False
 
 
-def check_lic_2() -> bool:
-    # TODO: Update the function signature and implementation
+def check_lic_2(points, parameters) -> bool:
+    if 0 > parameters["epsilon"] or parameters["epsilon"] >= np.pi:
+        return False
+
+    if len(points) < 3:
+        return False
+
+    for i in range(len(points) - 2):
+        point_1 = points[i]
+        vertex = points[i + 1]
+        point_2 = points[i + 2]
+
+        if point_1 == vertex or point_2 == vertex:
+            return False
+
+        vector_1 = [point_1["x"] - vertex["x"], point_1["y"] - vertex["y"]]
+        vector_2 = [point_2["x"] - vertex["x"], point_2["y"] - vertex["y"]]
+
+        cos_angle = np.dot(vector_1, vector_2) / (
+            np.linalg.norm(vector_1) * np.linalg.norm(vector_1)
+        )
+
+        if cos_angle > np.cos(np.pi - parameters["epsilon"]) or cos_angle < np.cos(
+            np.pi + parameters["epsilon"]
+        ):
+            return True
     return False
 
 
@@ -168,7 +192,7 @@ def get_cmv(
     return [
         check_lic_0(num_points, points, parameters),
         check_lic_1(),
-        check_lic_2(),
+        check_lic_2(points, parameters),
         check_lic_3(),
         check_lic_4(),
         check_lic_5(points),

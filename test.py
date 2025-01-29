@@ -135,6 +135,14 @@ class CMVTests(unittest.TestCase):
         num_points = len(points)
         self.assertFalse(cmv.check_lic_0(num_points, points, params))
 
+    def test_lic_2_should_fail_epsilon_gt_pi(self):
+        params = {"epsilon": 4.0}
+        points = self.mock_points_a1
+
+        self.assertFalse(
+            cmv.check_lic_2(points, params), "LIC 2: Epsilon is greater than PI"
+        )
+
     def test_lic_5_should_fail_if_points_are_increasingly_far(self):
         points = [
             {"x": 0, "y": 1},
