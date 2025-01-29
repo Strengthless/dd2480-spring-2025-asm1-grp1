@@ -359,6 +359,73 @@ class CMVTests(unittest.TestCase):
             "LIC 8: Colinear points are regarded as a triangle",
         )
 
+    def test_lic9_should_pass_if_valid_angle_exists(self):
+        parameters = {"c_pts": 2, "d_pts": 2, "epsilon": 0.1}
+        points = [
+            {"x": 5, "y": 2},
+            {"x": 8, "y": 6},
+            {"x": 3, "y": -2},
+            {"x": 2, "y": 2},
+            {"x": 1, "y": 3},
+            {"x": 1, "y": 2},
+            {"x": 2, "y": 2},
+            {"x": 2, "y": 1},
+            {"x": 1, "y": 2},
+            {"x": 5, "y": 2},
+        ]
+        num_points = len(points)
+
+        self.assertTrue(
+            cmv.check_lic_9(num_points, points, parameters), "LIC9: valid angle exists."
+        )
+
+    def test_lic9_should_fail_if_no_valid_angle_exists(self):
+        parameters = {"c_pts": 1, "d_pts": 1, "epsilon": 0.1}
+        points = [
+            {"x": 0, "y": 1},
+            {"x": 5, "y": 2},
+            {"x": 1, "y": 1},
+            {"x": 2, "y": 5},
+            {"x": 2, "y": 1},
+        ]
+        num_points = len(points)
+
+        self.assertFalse(
+            cmv.check_lic_9(num_points, points, parameters),
+            "LIC9: no valid angle exists.",
+        )
+
+    def test_lic9_should_fail_if_all_points_coincide(self):
+        parameters = {"c_pts": 1, "d_pts": 1, "epsilon": 0.1}
+        points = [
+            {"x": 1, "y": 0},
+            {"x": 5, "y": 2},
+            {"x": 1, "y": 0},
+            {"x": 2, "y": 5},
+            {"x": 1, "y": 0},
+        ]
+        num_points = len(points)
+
+        self.assertFalse(
+            cmv.check_lic_9(num_points, points, parameters),
+            "LIC9: all points coincide with the vertex.",
+        )
+
+    def test_lic9_should_fail_if_input_is_illegal(self):
+        parameters = {"c_pts": 0, "d_pts": -3, "epsilon": 0.1}
+        points = [
+            {"x": 1, "y": 0},
+            {"x": 5, "y": 2},
+            {"x": 1, "y": 0},
+            {"x": 2, "y": 5},
+            {"x": 1, "y": 0},
+        ]
+        num_points = len(points)
+
+        self.assertFalse(
+            cmv.check_lic_9(num_points, points, parameters), "LIC9: illegal input"
+        )
+
     # LIC 10 test cases
     def test_lic_10_should_pass_if_area_gt_area1(self):
         parameters = {"area1": 1, "e_pts": 3, "f_pts": 4}
