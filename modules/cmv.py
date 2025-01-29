@@ -159,10 +159,7 @@ def check_lic_13(
     radius1 = parameters["radius1"]
     radius2 = parameters["radius2"]
 
-    if(radius2 < 0):
-        raise False
-
-    if num_points < 5:
+    if(radius2 < 0) or (num_points < 5):
         return False
     
     flag_1 = False
