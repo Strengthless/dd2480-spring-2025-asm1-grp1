@@ -168,6 +168,47 @@ class CMVTests(unittest.TestCase):
             cmv.check_lic_5(points), "LIC 5: Points are the same (x1 = x2)"
         )
 
+    # LIC 6 test cases
+    def test_lic_6_should_fail_if_points_are_close_to_line(self):
+        parameters = {"dist": 1, "n_pts": 3}
+        points = [
+            {"x": 0, "y": 0},
+            {"x": 1, "y": 1},
+            {"x": 4, "y": 0},
+            {"x": 5, "y": 1},
+        ]
+        num_points = len(points)
+        self.assertFalse(
+            cmv.check_lic_6(num_points, points, parameters),
+            "LIC 6: Points that are compared with dist will be close to the two created lines",
+        )
+
+    def test_lic_6_should_pass_if_points_are_far_away_from_line(self):
+        parameters = {"dist": 2, "n_pts": 3}
+        points = [{"x": 0, "y": 0}, {"x": 2, "y": 4}, {"x": 4, "y": 0}]
+        num_points = len(points)
+        self.assertTrue(
+            cmv.check_lic_6(num_points, points, parameters),
+            "LIC 6: The point compared with dist will be far away from the line",
+        )
+
+    def test_lic_6_should_pass_if_point_is_far_away_from_line_point(self):
+        parameters = {"dist": 2, "n_pts": 3}
+        points = [{"x": 0, "y": 0}, {"x": 2, "y": 2}, {"x": 0, "y": 0}]
+        num_points = len(points)
+        self.assertTrue(
+            cmv.check_lic_6(num_points, points, parameters),
+            "LIC 6: The point compared with dist will be far away from the line-point, the two points for the line are the same",
+        )
+
+    def test_lic_6_should_fail_if_input_is_illegal(self):
+        parameters = {"dist": -4, "n_pts": 2}
+        points = [{"x": 0, "y": 0}, {"x": 2, "y": 2}]
+        num_points = len(points)
+        self.assertFalse(
+            cmv.check_lic_6(num_points, points, parameters), "LIC 6: Illegal input"
+        )
+
     # LIC 10 test cases
     def test_lic_10_should_pass_if_area_gt_area1(self):
         parameters = {"area1": 1, "e_pts": 3, "f_pts": 4}
