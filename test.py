@@ -324,6 +324,92 @@ class CMVTests(unittest.TestCase):
         num_points = len(points)
         self.assertFalse(cmv.check_lic_12(num_points, points, parameters))
 
+    # LIC 14 test cases
+    def test_lic_14_should_pass_if_area_gt_area1_lt_area2(self):
+        parameters = {
+            "area1": 3,
+            "area2": 2,
+            "e_pts": 2,
+            "f_pts": 2
+        }
+        points = [
+            {'x':0, 'y':0},
+            {'x':0, 'y':0},
+            {'x':0, 'y':0},
+            {'x':0, 'y':10},
+            {'x':0, 'y':0},
+            {'x':0, 'y':0},
+            {'x':10, 'y':0},
+            {'x':0, 'y':0},
+            {'x':0, 'y':0},
+            {'x':0, 'y':0},
+            {'x':0, 'y':0},
+            {'x':0, 'y':0}
+        ] # True
+        num_points = len(points)
+        self.assertTrue(cmv.check_lic_14(num_points, points, parameters))
+
+    def test_lic_14_should_fail_if_area_lt_area1_gt_area2(self):
+        parameters = {
+            "area1": 3,
+            "area2": 2,
+            "e_pts": 2,
+            "f_pts": 2
+        }
+        points = [
+            {'x':0, 'y':0},
+            {'x':0, 'y':0},
+            {'x':0, 'y':0},
+            {'x':0, 'y':0},
+            {'x':0, 'y':0},
+            {'x':0, 'y':0},
+            {'x':0, 'y':0},
+            {'x':0, 'y':0},
+            {'x':0, 'y':0},
+            {'x':0, 'y':0},
+            {'x':0, 'y':0},
+            {'x':0, 'y':0}
+        ] # False
+        num_points = len(points)
+        self.assertFalse(cmv.check_lic_14(num_points, points, parameters))
+
+    def test_lic_14_should_fail_if_area2_lt_0(self):
+        parameters = {
+            "area1": 3,
+            "area2": -1,
+            "e_pts": 2,
+            "f_pts": 2
+        }
+        points = [
+            {'x':0, 'y':0},
+            {'x':0, 'y':0},
+            {'x':0, 'y':0},
+            {'x':0, 'y':10},
+            {'x':0, 'y':0},
+            {'x':0, 'y':0},
+            {'x':10, 'y':0},
+            {'x':0, 'y':0},
+            {'x':0, 'y':0},
+            {'x':0, 'y':0},
+            {'x':0, 'y':0},
+            {'x':0, 'y':0}
+        ] # True
+        num_points = len(points)
+        self.assertFalse(cmv.check_lic_14(num_points, points, parameters))
+
+    def test_lic_14_should_fail_if_num_points_lt_5(self):
+        parameters = {
+            "area1": 3,
+            "area2": 2,
+            "e_pts": 2,
+            "f_pts": 2
+        }
+        points = [
+            {"x": 0, "y": 0}, 
+            {"x": 0, "y": 0}
+        ]
+        num_points = len(points)
+        self.assertFalse(cmv.check_lic_14(num_points, points, parameters))
 
 class FUVTest(unittest.TestCase):
     def test_fuv_should_be_true_if_all_puv_false(self):
