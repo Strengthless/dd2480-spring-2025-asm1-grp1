@@ -135,7 +135,6 @@ class CMVTests(unittest.TestCase):
         num_points = len(points)
         self.assertFalse(cmv.check_lic_0(num_points, points, params))
 
-
     def test_lic_5_should_fail_if_points_are_increasingly_far(self):
         points = [
             {"x": 0, "y": 1},
@@ -254,7 +253,7 @@ class CMVTests(unittest.TestCase):
             cmv.check_lic_7(num_points, points, parameters),
             "LIC 7: distance between two points > length1",
         )
-        
+
     # LIC 10 test cases
     def test_lic_10_should_pass_if_area_gt_area1(self):
         parameters = {"area1": 1, "e_pts": 3, "f_pts": 4}
