@@ -38,8 +38,20 @@ def check_lic_2() -> bool:
     return False
 
 
-def check_lic_3() -> bool:
-    # TODO: Update the function signature and implementation
+def check_lic_3(
+    num_points: int, points: list[Coordinate], parameters: Parameters
+) -> bool:
+    if num_points < 3 or parameters["area1"] < 0:
+        return False
+
+    for i in range(num_points - 2):
+        point_a = convert_to_np_point(points[i])
+        point_b = convert_to_np_point(points[i + 1])
+        point_c = convert_to_np_point(points[i + 2])
+
+        area = get_triangle_area_from_np_points(point_a, point_b, point_c)
+        if float_compare(area, parameters["area1"]) == Comp_Type.GT:
+            return True
     return False
 
 
@@ -360,7 +372,7 @@ def get_cmv(
         check_lic_0(num_points, points, parameters),
         check_lic_1(),
         check_lic_2(),
-        check_lic_3(),
+        check_lic_3(num_points, points, parameters),
         check_lic_4(num_points, points, parameters),
         check_lic_5(points),
         check_lic_6(num_points, points, parameters),
