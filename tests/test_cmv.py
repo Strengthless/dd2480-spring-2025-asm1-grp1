@@ -1,23 +1,6 @@
-import numpy as np
 import unittest
-from snapshottest import TestCase
-from src.main import parse_input
 from src.modules import cmv
-from src.modules.decide import determine_launch
-from src.modules.fuv import get_fuv
-from src.modules.pum import get_pum
-from src.modules.types import Comp_Type, Connectors, Coordinate
-from src.modules.utils import (
-    can_three_np_points_fit_in_a_circle,
-    convert_to_np_point,
-    float_compare,
-    float_gte,
-    float_lte,
-    get_angle_from_np_points,
-    get_distance_between_np_points,
-    get_triangle_area_from_np_points,
-    np_points_equal,
-)
+from src.modules.types import Coordinate
 
 
 class CMVTests(unittest.TestCase):
