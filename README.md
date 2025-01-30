@@ -70,7 +70,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam nec eros orci. 
 
 ### Arvid Hjort
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam nec eros orci. Nunc euismod et nulla eu pretium. Aenean vitae nisl dictum, semper nunc vel, faucibus velit. Proin eu viverra ante. Cras maximus enim odio, at pretium enim fermentum at. Nulla non ligula enim. Nullam eget lacus eget ex lacinia tempor sit amet quis est. Praesent eleifend erat eget magna feugiat congue. Cras accumsan neque eget erat consequat gravida. Cras posuere metus eget est tristique imperdiet.
+For this lab assignment I worked on the LIC algorithms in the CMV function. Specifically I have coded LIC 10, 11, 12, 13 and 14 and the test cases for those functions. This means that I worked in the modules/cmv.py and test.py
 
 ### Olivia Aronsson
 
