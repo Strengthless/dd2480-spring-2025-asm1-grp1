@@ -26,14 +26,14 @@ def check_lic_1() -> bool:
     return False
 
 
-def check_lic_2(points, parameters) -> bool:
+def check_lic_2(num_points: int, points: list[Coordinate], parameters: Parameters) -> bool:
     if 0 > parameters["epsilon"] or parameters["epsilon"] >= np.pi:
         return False
 
-    if len(points) < 3:
+    if num_points < 3:
         return False
 
-    for i in range(len(points) - 2):
+    for i in range(num_points - 2):
         point_1 = convert_to_np_point(points[i])
         vertex = convert_to_np_point(points[i + 1])
         point_2 = convert_to_np_point(points[i + 2])
