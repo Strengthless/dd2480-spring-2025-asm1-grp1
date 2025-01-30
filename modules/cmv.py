@@ -37,11 +37,13 @@ def check_lic_2() -> bool:
     return False
 
 
-def check_lic_3(points: list[Coordinate], parameters: Parameters) -> bool:
-    if len(points) < 3 or parameters["area1"] < 0:
+def check_lic_3(
+    num_points: int, points: list[Coordinate], parameters: Parameters
+) -> bool:
+    if num_points < 3 or parameters["area1"] < 0:
         return False
 
-    for i in range(len(points) - 2):
+    for i in range(num_points - 2):
         point_a = convert_to_np_point(points[i])
         point_b = convert_to_np_point(points[i + 1])
         point_c = convert_to_np_point(points[i + 2])
