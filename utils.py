@@ -11,6 +11,14 @@ def float_compare(a, b, epsilon=0.000001) -> Comp_Type:
         return Comp_Type.GT
 
 
+def float_lte(a, b, epsilon=0.000001) -> bool:
+    return float_compare(a, b, epsilon) in [Comp_Type.LT, Comp_Type.EQ]
+
+
+def float_gte(a, b, epsilon=0.000001) -> bool:
+    return float_compare(a, b, epsilon) in [Comp_Type.GT, Comp_Type.EQ]
+
+
 def convert_to_np_point(point: Coordinate) -> np.ndarray:
     return np.array([point["x"], point["y"]], dtype=float)
 
