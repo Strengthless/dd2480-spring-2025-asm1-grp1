@@ -330,10 +330,10 @@ def get_cmv(
 ) -> list[bool]:
     return [
         check_lic_0(num_points, points, parameters),
-        check_lic_1(),
-        check_lic_2(),
-        check_lic_3(),
-        check_lic_4(),
+        check_lic_1(num_points, points, parameters),
+        check_lic_2(num_points, points, parameters),
+        check_lic_3(num_points, points, parameters),
+        check_lic_4(num_points, points, parameters),
         check_lic_5(points),
         check_lic_6(num_points, points, parameters),
         check_lic_7(num_points, points, parameters),
@@ -341,7 +341,7 @@ def get_cmv(
         check_lic_9(num_points, points, parameters),
         check_lic_10(num_points, points, parameters),
         check_lic_11(num_points, points, parameters),
-        check_lic_12(),
+        check_lic_12(num_points, points, parameters),
         check_lic_13(num_points, points, parameters),
         check_lic_14(num_points, points, parameters),
     ]
