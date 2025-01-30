@@ -34,23 +34,20 @@ def check_lic_2(points, parameters) -> bool:
         return False
 
     for i in range(len(points) - 2):
-        point_1 = points[i]
-        vertex = points[i + 1]
-        point_2 = points[i + 2]
+        point_1 = convert_to_np_point(points[i])
+        vertex = convert_to_np_point(points[i + 1])
+        point_2 = convert_to_np_point(points[i + 2])
 
-        if point_1 == vertex or point_2 == vertex:
-            return False
+        if np_points_equal(point_1, vertex):
+            continue
+        if np_points_equal(point_2, vertex):
+            continue
 
-        vector_1 = [point_1["x"] - vertex["x"], point_1["y"] - vertex["y"]]
-        vector_2 = [point_2["x"] - vertex["x"], point_2["y"] - vertex["y"]]
+        angle = get_angle_from_np_points(point_1, vertex, point_2)
 
-        angle = np.dot(vector_1, vector_2) / (
-            np.linalg.norm(vector_1) * np.linalg.norm(vector_2)
-        )
-
-        if angle > np.cos(np.pi - parameters["epsilon"]) or angle < np.cos(
-            np.pi + parameters["epsilon"]
-        ):
+        if float_compare(angle, np.pi - epsilon) == Comp_Type.LT:
+            return True
+        if float_compare(angle, np.pi + epsilon) == Comp_Type.GT:
             return True
     return False
 
