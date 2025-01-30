@@ -49,8 +49,8 @@ def check_lic_3(
         point_b = convert_to_np_point(points[i + 1])
         point_c = convert_to_np_point(points[i + 2])
 
-        area_triangle = get_triangle_area_from_np_points(point_a, point_b, point_c)
-        if area_triangle > parameters["area1"]:
+        area = get_triangle_area_from_np_points(point_a, point_b, point_c)
+        if float_compare(area, parameters["area1"]) == Comp_Type.GT:
             return True
     return False
 
@@ -372,7 +372,7 @@ def get_cmv(
         check_lic_0(num_points, points, parameters),
         check_lic_1(),
         check_lic_2(),
-        check_lic_3(points, parameters),
+        check_lic_3(num_points, points, parameters),
         check_lic_4(num_points, points, parameters),
         check_lic_5(points),
         check_lic_6(num_points, points, parameters),
