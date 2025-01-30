@@ -54,7 +54,7 @@ Some APIs can be located and re-used in the `modules` folder:
 - The FUV (Final Unlocking Vector) is derived in `fuv.py`
 - The PUM (Preliminary Unlocking Matrix) is derived in `pum.py`
 
-## Statement of contributions & Way of working
+## Statement of contributions
 
 ### Kam Ting Hoi
 
@@ -75,3 +75,9 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam nec eros orci. 
 ### Olivia Aronsson
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam nec eros orci. Nunc euismod et nulla eu pretium. Aenean vitae nisl dictum, semper nunc vel, faucibus velit. Proin eu viverra ante. Cras maximus enim odio, at pretium enim fermentum at. Nulla non ligula enim. Nullam eget lacus eget ex lacinia tempor sit amet quis est. Praesent eleifend erat eget magna feugiat congue. Cras accumsan neque eget erat consequat gravida. Cras posuere metus eget est tristique imperdiet.
+
+## Way of working
+
+We would argue that our ways of working are currently in the state “In Use” but almost in the state “In Place”. We have already achieved the first two states “Principles established” and “Foundations established” by having meetings where the group agreed to a shared approach to the project, established shared practices for the whole team and evaluated the tools available with the desired practices. Furthermore, once the practises and tools were approved by the team we have been using them to do real work on the project. We have continuously adapted our ways of working when presented with new feedback on improvements, and regularly evaluate in meetings if there are any gaps needed to be amended in order for everyone to adhere to the ways of working within the context of the project. This, in our opinion, means that we also have fulfilled the state “In Use”. 
+
+Lastly, the whole team is currently using the practices and tools in the day to day work within the project, however as of now, only few members of the group are modifying and improving the practices in the group. Although most of the criteria for the “In Place” state are fulfilled, we would categorize ourselves as being between the “In Use” state and the “In Place” state. To fully reach the “In Place” state, the entire group would have to be more involved in inspection and adaptation of the way-of-working.
