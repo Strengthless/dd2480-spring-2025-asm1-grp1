@@ -1,9 +1,10 @@
-from modules.types import Coordinate, Parameters
+from modules.types import Comp_Type, Coordinate, Parameters
 import numpy as np
 
 from utils import (
     can_three_np_points_fit_in_a_circle,
     convert_to_np_point,
+    float_compare,
     get_angle_from_np_points,
     get_distance_between_np_points,
     get_triangle_area_from_np_points,
@@ -22,7 +23,7 @@ def check_lic_0(num_points, points: list[Coordinate], parameters: Parameters) ->
 
         distance = get_distance_between_np_points(point_1, point_2)
 
-        if distance > parameters["length1"]:
+        if float_compare(distance, parameters["length1"]) == Comp_Type.GT:
             return True
     return False
 
@@ -37,18 +38,57 @@ def check_lic_2() -> bool:
     return False
 
 
-def check_lic_3() -> bool:
-    # TODO: Update the function signature and implementation
+def check_lic_3(
+    num_points: int, points: list[Coordinate], parameters: Parameters
+) -> bool:
+    if num_points < 3 or parameters["area1"] < 0:
+        return False
+
+    for i in range(num_points - 2):
+        point_a = convert_to_np_point(points[i])
+        point_b = convert_to_np_point(points[i + 1])
+        point_c = convert_to_np_point(points[i + 2])
+
+        area = get_triangle_area_from_np_points(point_a, point_b, point_c)
+        if float_compare(area, parameters["area1"]) == Comp_Type.GT:
+            return True
     return False
 
 
-def check_lic_4() -> bool:
-    # TODO: Update the function signature and implementation
+def check_lic_4(num_points, points: list[Coordinate], parameters: Parameters) -> bool:
+    q_pts = parameters["q_pts"]
+    quads = parameters["quads"]
+    quad_i = 0
+    quad_ii = 0
+    quad_iii = 0
+    quad_iv = 0
+
+    if not (2 <= q_pts <= num_points) or not (1 <= quads <= 3):
+        return False
+
+    for i in range(num_points - q_pts + 1):
+        q_pts_sublist = points[i : i + q_pts - 1]
+        for j in range(len(q_pts_sublist)):
+            if q_pts_sublist[j]["y"] >= 0:
+                if q_pts_sublist[j]["x"] >= 0:
+                    quad_i = 1
+                else:
+                    quad_ii = 1
+            else:
+                if q_pts_sublist[j]["x"] < 0:
+                    quad_iii = 1
+                else:
+                    quad_iv = 1
+        if (quad_i + quad_ii + quad_iii + quad_iv) > quads:
+            return True
     return False
 
 
 def check_lic_5(points: list[Coordinate]) -> bool:
-    return any(p2["x"] - p1["x"] < 0 for p1, p2 in zip(points, points[1:]))
+    return any(
+        float_compare(p2["x"], p1["x"]) == Comp_Type.LT
+        for p1, p2 in zip(points, points[1:])
+    )
 
 
 def check_lic_6(
@@ -72,7 +112,7 @@ def check_lic_6(
 
             if np_points_equal(first_point, last_point):
                 curr_dist = get_distance_between_np_points(current_point, first_point)
-                if curr_dist > dist:
+                if float_compare(curr_dist, dist) == Comp_Type.GT:
                     return True
 
             else:
@@ -83,7 +123,7 @@ def check_lic_6(
                 cross_value = ax * by - ay * bx
                 curr_pt_dist_to_line = np.abs(cross_value) / np.linalg.norm([ax, ay])
 
-                if curr_pt_dist_to_line > dist:
+                if float_compare(curr_pt_dist_to_line, dist) == Comp_Type.GT:
                     return True
 
     return False
@@ -108,7 +148,7 @@ def check_lic_7(
 
         dist = get_distance_between_np_points(first_point, last_point)
 
-        if dist > length1:
+        if float_compare(dist, length1) == Comp_Type.GT:
             return True
 
     return False
@@ -170,9 +210,9 @@ def check_lic_9(
 
         angle = get_angle_from_np_points(first_vertex, angle_vertex, last_vertex)
 
-        if angle < (np.pi - epsilon):
+        if float_compare(angle, np.pi - epsilon) == Comp_Type.LT:
             return True
-        if angle > (np.pi + epsilon):
+        if float_compare(angle, np.pi + epsilon) == Comp_Type.GT:
             return True
     return False
 
@@ -198,7 +238,7 @@ def check_lic_10(
 
         area = get_triangle_area_from_np_points(point_i, point_j, point_k)
 
-        if area > area1:
+        if float_compare(area, area1) == Comp_Type.GT:
             return True
 
     return False
@@ -220,7 +260,7 @@ def check_lic_11(
         point_2 = points[i + g_pts + 1]
         x_difference = point_2["x"] - point_1["x"]
 
-        if x_difference < 0:
+        if float_compare(x_difference, 0) == Comp_Type.LT:
             return True
 
     return False
@@ -245,10 +285,10 @@ def check_lic_12(
 
         length = get_distance_between_np_points(point_1, point_2)
 
-        if length > length1:
+        if float_compare(length, length1) == Comp_Type.GT:
             flag_1 = True
 
-        if length < length2:
+        if float_compare(length, length2) == Comp_Type.LT:
             flag_2 = True
 
         if flag_1 and flag_2:
@@ -312,10 +352,10 @@ def check_lic_14(
 
         area = get_triangle_area_from_np_points(point_i, point_j, point_k)
 
-        if area > area1:
+        if float_compare(area, area1) == Comp_Type.GT:
             flag_1 = True
 
-        if area < area2:
+        if float_compare(area, area2) == Comp_Type.LT:
             flag_2 = True
 
         if flag_1 and flag_2:
