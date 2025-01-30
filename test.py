@@ -331,8 +331,9 @@ class CMVTests(unittest.TestCase):
             {"x": 0.0, "y": 0.0},
             {"x": 3, "y": 1},
         ]
+        num_points = len(points)
         self.assertFalse(
-            cmv.check_lic_3(points, params),
+            cmv.check_lic_3(num_points, points, params),
             "LIC 3: Area1 is greater than area from points",
         )
 
@@ -344,8 +345,9 @@ class CMVTests(unittest.TestCase):
             {"x": 0.0, "y": 0.0},
             {"x": 0.0, "y": 0.0},
         ]
+        num_points = len(points)
         self.assertTrue(
-            cmv.check_lic_3(points, params),
+            cmv.check_lic_3(num_points, points, params),
             "LIC 3: Area1 is less than area from points",
         )
 
@@ -355,8 +357,9 @@ class CMVTests(unittest.TestCase):
             {"x": 0.0, "y": 2.0},
             {"x": 2.0, "y": 0.0},
         ]
+        num_points = len(points)
         self.assertFalse(
-            cmv.check_lic_3(points, params),
+            cmv.check_lic_3(num_points, points, params),
             "LIC 3: Not enough coordinates",
         )
 
