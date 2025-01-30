@@ -174,11 +174,9 @@ def check_lic_9(
 
         angle = get_angle_from_np_points(first_vertex, angle_vertex, last_vertex)
 
-        # We assume that this does not require float_compare, since there is
-        # already an epsilon value being taken into account.
-        if angle < (np.pi - epsilon):
+        if float_compare(angle, np.pi - epsilon) == Comp_Type.LT:
             return True
-        if angle > (np.pi + epsilon):
+        if float_compare(angle, np.pi + epsilon) == Comp_Type.GT:
             return True
     return False
 
