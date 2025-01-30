@@ -57,6 +57,10 @@ def get_angle_from_np_points(
     a = get_distance_between_np_points(x_point, y_point)
     b = get_distance_between_np_points(y_point, z_point)
     c = get_distance_between_np_points(z_point, x_point)
+
+    if a == 0 or b == 0:
+        return 0
+
     return np.arccos((a**2 + b**2 - c**2) / (2 * a * b))
 
 
@@ -80,21 +84,21 @@ def can_three_np_points_fit_in_a_circle(
     # Collinear case
     if triangle_area == 0:
         max_distance = max(a_distance, b_distance, c_distance)
-        if max_distance / 2 <= target_radius:
+        if float_lte(max_distance / 2, target_radius):
             return True
 
     sides = sorted([a_distance, b_distance, c_distance])
     a, b, c = sides
 
     # Acute triangle
-    if c**2 < a**2 + b**2:
+    if float_compare(c**2, a**2 + b**2) == Comp_Type.LT:
         circum_radius = (a_distance * b_distance * c_distance) / (4 * triangle_area)
-        if circum_radius <= target_radius:
+        if float_lte(circum_radius, target_radius):
             return True
 
     # Right or obtuse triangle
     else:
-        if (c / 2) <= target_radius:
+        if float_lte(c / 2, target_radius):
             return True
 
     return False
