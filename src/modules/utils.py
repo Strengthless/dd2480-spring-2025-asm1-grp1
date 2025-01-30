@@ -1,5 +1,5 @@
-from modules.types import Comp_Type, Coordinate
 import numpy as np
+from src.modules.types import Comp_Type, Coordinate
 
 
 def float_compare(a, b, epsilon=0.000001) -> Comp_Type:

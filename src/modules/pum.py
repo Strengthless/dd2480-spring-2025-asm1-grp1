@@ -1,4 +1,4 @@
-from modules.types import Connectors
+from src.modules.types import Connectors
 
 
 def get_pum(cmv: list[int], lcm: list[list[Connectors]]) -> list[list[bool]]:

@@ -1,7 +1,7 @@
 # Imports
-from modules.types import Connectors, Coordinate, Parameters
-from modules.decide import decide
 import argparse
+from src.modules.types import Connectors, Coordinate, Parameters
+from src.modules.decide import decide
 
 # Global variables
 num_points: int
@@ -32,7 +32,7 @@ def get_cli_args() -> tuple[str, bool]:
 def parse_input(
     target_file: str,
 ) -> tuple[int, list[Coordinate], Parameters, list[list[Connectors]], list[bool]]:
-    with open(f"inputs/{target_file}", "r") as file:
+    with open(f"{target_file}", "r") as file:
         # Parse number of points
         num_points = int(file.readline())
 

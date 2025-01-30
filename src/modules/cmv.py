@@ -1,7 +1,6 @@
-from modules.types import Comp_Type, Coordinate, Parameters
 import numpy as np
-
-from utils import (
+from src.modules.types import Comp_Type, Coordinate, Parameters
+from src.modules.utils import (
     can_three_np_points_fit_in_a_circle,
     convert_to_np_point,
     float_compare,
@@ -404,7 +403,7 @@ def get_cmv(
         check_lic_9(num_points, points, parameters),
         check_lic_10(num_points, points, parameters),
         check_lic_11(num_points, points, parameters),
-        check_lic_12(),
+        check_lic_12(num_points, points, parameters),
         check_lic_13(num_points, points, parameters),
         check_lic_14(num_points, points, parameters),
     ]
