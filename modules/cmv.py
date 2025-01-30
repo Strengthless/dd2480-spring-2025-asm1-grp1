@@ -52,8 +52,32 @@ def check_lic_3(points: list[Coordinate], parameters: Parameters) -> bool:
     return False
 
 
-def check_lic_4() -> bool:
-    # TODO: Update the function signature and implementation
+def check_lic_4(num_points, points: list[Coordinate], parameters: Parameters) -> bool:
+    q_pts = parameters["q_pts"]
+    quads = parameters["quads"]
+    quad_i = 0
+    quad_ii = 0
+    quad_iii = 0
+    quad_iv = 0
+
+    if not (2 <= q_pts <= num_points) or not (1 <= quads <= 3):
+        return False
+
+    for i in range(num_points - q_pts + 1):
+        q_pts_sublist = points[i : i + q_pts - 1]
+        for j in range(len(q_pts_sublist)):
+            if q_pts_sublist[j]["y"] >= 0:
+                if q_pts_sublist[j]["x"] >= 0:
+                    quad_i = 1
+                else:
+                    quad_ii = 1
+            else:
+                if q_pts_sublist[j]["x"] < 0:
+                    quad_iii = 1
+                else:
+                    quad_iv = 1
+        if (quad_i + quad_ii + quad_iii + quad_iv) > quads:
+            return True
     return False
 
 
@@ -343,7 +367,7 @@ def get_cmv(
         check_lic_1(),
         check_lic_2(),
         check_lic_3(points, parameters),
-        check_lic_4(),
+        check_lic_4(num_points, points, parameters),
         check_lic_5(points),
         check_lic_6(num_points, points, parameters),
         check_lic_7(num_points, points, parameters),
