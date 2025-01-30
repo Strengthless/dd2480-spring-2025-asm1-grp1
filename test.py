@@ -400,6 +400,107 @@ class CMVTests(unittest.TestCase):
 
         self.assertFalse(cmv.check_lic_1(num_points, points, params))
 
+    def test_lic_3_should_fail_if_area_pts_less_than_param(self):
+        params = {"area1": 0.6}
+        points = [
+            {"x": 0.0, "y": 1.0},
+            {"x": 1.0, "y": 0.0},
+            {"x": 0.0, "y": 0.0},
+            {"x": 3, "y": 1},
+        ]
+        num_points = len(points)
+        self.assertFalse(
+            cmv.check_lic_3(num_points, points, params),
+            "LIC 3: Area1 is greater than area from points",
+        )
+
+    def test_lic_3_should_pass_if_area_pts_greater_than_param(self):
+        params = {"area1": 1.9}
+        points = [
+            {"x": 0.0, "y": 2.0},
+            {"x": 2.0, "y": 0.0},
+            {"x": 0.0, "y": 0.0},
+            {"x": 0.0, "y": 0.0},
+        ]
+        num_points = len(points)
+        self.assertTrue(
+            cmv.check_lic_3(num_points, points, params),
+            "LIC 3: Area1 is less than area from points",
+        )
+
+    def test_lic_3_should_fail_if_not_enough_points(self):
+        params = {"area1": 1.9}
+        points = [
+            {"x": 0.0, "y": 2.0},
+            {"x": 2.0, "y": 0.0},
+        ]
+        num_points = len(points)
+        self.assertFalse(
+            cmv.check_lic_3(num_points, points, params),
+            "LIC 3: Not enough coordinates",
+        )
+
+    # LIC 4 test cases
+    def test_lic_4_should_pass_if_nr_quads_gt_param_quads(self):
+        params = {"quads": 2, "q_pts": 3}
+        points: list[Coordinate] = [
+            {"x": 0.0, "y": 2.0},
+            {"x": 0.0, "y": 0.0},
+            {"x": -1.0, "y": 0.0},
+            {"x": 1.0, "y": -1.0},
+            {"x": 1.0, "y": 1.0},
+        ]
+        num_points = len(points)
+        self.assertTrue(cmv.check_lic_4(num_points, points, params))
+
+    def test_lic_4_should_fail_if_nr_quads_lt_param_quads(self):
+        params = {"quads": 3, "q_pts": 5}
+        points: list[Coordinate] = [
+            {"x": 0.0, "y": 2.0},
+            {"x": -1.0, "y": -1.0},
+            {"x": -1.0, "y": 0.0},
+            {"x": 2.0, "y": 1.0},
+            {"x": -3.0, "y": -6.0},
+            {"x": -2.0, "y": 2.0},
+        ]
+        num_points = len(points)
+        self.assertFalse(
+            cmv.check_lic_4(num_points, points, params),
+            "LIC 4: Returns False as pts in 3 quads, not 4",
+        )
+
+    def test_lic_4_should_fail_if_quads_invalid(self):
+        params = {"quads": 4, "q_pts": 5}
+        points: list[Coordinate] = [
+            {"x": 0.0, "y": 2.0},
+            {"x": -1.0, "y": 1.0},
+            {"x": -1.0, "y": -1.0},
+            {"x": 2.0, "y": -1.0},
+            {"x": -3.0, "y": -6.0},
+            {"x": -2.0, "y": 2.0},
+        ]
+        num_points = len(points)
+        self.assertFalse(
+            cmv.check_lic_4(num_points, points, params),
+            "LIC 4: Returns False as QUADS greater than 3",
+        )
+
+    def test_lic_4_should_fail_if_q_pts_invalid(self):
+        params = {"quads": 4, "q_pts": 1}
+        points: list[Coordinate] = [
+            {"x": 0.0, "y": 2.0},
+            {"x": -1.0, "y": 1.0},
+            {"x": -1.0, "y": -1.0},
+            {"x": 2.0, "y": -1.0},
+            {"x": -3.0, "y": -6.0},
+            {"x": -2.0, "y": 2.0},
+        ]
+        num_points = len(points)
+        self.assertFalse(
+            cmv.check_lic_4(num_points, points, params),
+            "LIC 4: Returns False as q_pts are less than 2",
+        )
+
     # LIC 5 test cases
     def test_lic_5_should_fail_if_points_are_increasingly_far(self):
         points = [
