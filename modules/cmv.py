@@ -57,7 +57,9 @@ def check_lic_6(
     n_pts = parameters["n_pts"]
     dist = parameters["dist"]
 
-    if num_points < 3 or not (3 <= n_pts <= num_points) or dist < 0:
+    if num_points < 3 or dist < 0:
+        return False
+    if not (3 <= n_pts <= num_points):
         return False
 
     for i in range(len(points) - n_pts + 1):
@@ -123,9 +125,7 @@ def check_lic_8(
         return False
     if (a_pts < 1) or (b_pts < 1):
         return False
-    if radius1 < 0:
-        return False
-    if num_points < 5:
+    if (radius1 < 0) or (num_points < 5):
         return False
 
     for i in range(num_points - a_pts - b_pts - 2):
@@ -186,9 +186,7 @@ def check_lic_10(
 
     if num_points < 5:
         return False
-    if e_pts < 1:
-        return False
-    if f_pts < 1:
+    if e_pts < 1 or f_pts < 1:
         return False
     if e_pts + f_pts > num_points - 3:
         return False
@@ -235,9 +233,7 @@ def check_lic_12(
     length1 = parameters["length1"]
     length2 = parameters["length2"]
 
-    if num_points < 3:
-        return False
-    if length2 < 0:
+    if num_points < 3 or length2 < 0:
         return False
 
     flag_1 = False
