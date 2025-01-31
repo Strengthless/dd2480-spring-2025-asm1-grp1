@@ -1,9 +1,9 @@
 # Imports
 from typing import NamedTuple
-from modules.types import Connectors, Coordinate, Parameters
-from modules.cmv import get_cmv
-from modules.fuv import get_fuv
-from modules.pum import get_pum
+from src.modules.types import Connectors, Coordinate, Parameters
+from src.modules.cmv import get_cmv
+from src.modules.fuv import get_fuv
+from src.modules.pum import get_pum
 
 
 # Type declarations
