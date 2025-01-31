@@ -73,12 +73,9 @@ class CMVTests(unittest.TestCase):
         ]
 
         self.mock_points_a8: list[Coordinate] = [
-            {"x": 3 - np.sqrt(27), "y": 4},
-            {"x": 3, "y": 1},
-            {"x": 3, "y": 7},
-            {"x": 6, "y": 4},
-            {"x": 4, "y": 10},
-            {"x": -2, "y": 4},
+            {"x": 1.0, "y": 1.0},
+            {"x": 2.0, "y": 2.0},
+            {"x": 3.0, "y": 3.0},
         ]
 
         # Section B
@@ -258,11 +255,7 @@ class CMVTests(unittest.TestCase):
         params = {
             "radius1": np.sqrt(7.9) / 2,
         }
-        points: list[Coordinate] = [
-            {"x": 1.0, "y": 1.0},
-            {"x": 2.0, "y": 2.0},
-            {"x": 3.0, "y": 3.0},
-        ]
+        points = self.mock_points_a8
         num_points = len(points)
 
         self.assertTrue(
@@ -274,11 +267,7 @@ class CMVTests(unittest.TestCase):
         self,
     ):
         params = {"radius1": np.sqrt(8.1) / 2}
-        points: list[Coordinate] = [
-            {"x": 1.0, "y": 1.0},
-            {"x": 2.0, "y": 2.0},
-            {"x": 3.0, "y": 3.0},
-        ]
+        points = self.mock_points_a8
         num_points = len(points)
 
         self.assertFalse(
@@ -302,7 +291,7 @@ class CMVTests(unittest.TestCase):
         self,
     ):
         params = {"radius1": 6 / np.sqrt(2)}
-        points = self.mock_points_a8
+        points = self.mock_points_a7
         num_points = len(points)
 
         self.assertTrue(
