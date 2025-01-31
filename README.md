@@ -74,7 +74,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam nec eros orci. 
 
 ### Olivia Aronsson
 
-Implemented LIC 0, 1, 2, 3, 4 and corresponding tests. Participated in reviewing pull request. Wrote outline for assessment of WoW according to Essensce.
+Implemented LIC 0, 1, 2, 3, 4 and corresponding tests, thus working solely in modules/cmv.py and test/test_CMV.py. Participated in reviewing pull request and wrote outline for assessment of WoW in accordance with Essensce standard.
 
 ## Way of working
 
