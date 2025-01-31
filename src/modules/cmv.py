@@ -27,7 +27,9 @@ def check_lic_0(num_points, points: list[Coordinate], parameters: Parameters) ->
     return False
 
 
-def check_lic_1(num_points: int, points: list[Coordinate], parameters: Parameters) -> bool:
+def check_lic_1(
+    num_points: int, points: list[Coordinate], parameters: Parameters
+) -> bool:
     radius = parameters["radius1"]
     if num_points < 3 or radius < 0:
         return False
@@ -379,7 +381,7 @@ def get_cmv(
 ) -> list[bool]:
     return [
         check_lic_0(num_points, points, parameters),
-        check_lic_1(),
+        check_lic_1(num_points, points, parameters),
         check_lic_2(),
         check_lic_3(num_points, points, parameters),
         check_lic_4(num_points, points, parameters),
