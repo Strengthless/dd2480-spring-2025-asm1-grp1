@@ -79,7 +79,7 @@ For this lab assignment I worked on the LIC algorithms in the CMV function. Spec
 
 ### Olivia Aronsson
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam nec eros orci. Nunc euismod et nulla eu pretium. Aenean vitae nisl dictum, semper nunc vel, faucibus velit. Proin eu viverra ante. Cras maximus enim odio, at pretium enim fermentum at. Nulla non ligula enim. Nullam eget lacus eget ex lacinia tempor sit amet quis est. Praesent eleifend erat eget magna feugiat congue. Cras accumsan neque eget erat consequat gravida. Cras posuere metus eget est tristique imperdiet.
+Implemented LIC 0, 1, 2, 3, 4 and corresponding tests, thus working solely in modules/cmv.py and test/test_CMV.py. Participated in reviewing pull request and wrote outline for assessment of WoW in accordance with Essensce standard.
 
 ## Way of working
 
