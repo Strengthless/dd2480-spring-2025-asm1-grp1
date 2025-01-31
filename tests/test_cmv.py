@@ -1,4 +1,5 @@
 import unittest
+import numpy as np
 from src.modules import cmv
 from src.modules.types import Coordinate
 
@@ -233,6 +234,46 @@ class CMVTests(unittest.TestCase):
         points: list[Coordinate] = [{"x": 1.0, "y": 2.0}]
         num_points = len(points)
         self.assertFalse(cmv.check_lic_0(num_points, points, params))
+
+    # LIC 2 test cases
+    def test_lic_2_should_fail_epsilon_gt_pi(self):
+        params = {"epsilon": np.deg2rad(181)}
+        points = self.mock_points_a1
+        num_points = len(points)
+
+        self.assertFalse(
+            cmv.check_lic_2(num_points, points, params),
+            "LIC 2: Epsilon is greater than PI",
+        )
+
+    def test_lic_2_should_fail_not_enough_points(self):
+        params = {"epsilon": 2.0}
+        points = [{"x": 0, "y": 1}, {"x": 1, "y": 1}]
+        num_points = len(points)
+
+        self.assertFalse(
+            cmv.check_lic_2(num_points, points, params), "LIC 2: Not enough points"
+        )
+
+    def test_lic_2_should_fail_cos_angle_outside_req(self):
+        params = {"epsilon": np.deg2rad(45)}
+        points = [{"x": -2, "y": 1}, {"x": 1, "y": 1}, {"x": 4, "y": 4}]
+        num_points = len(points)
+
+        self.assertFalse(
+            cmv.check_lic_2(num_points, points, params),
+            "LIC 2: Angle between vectors should not be between 135deg and 225deg.",
+        )
+
+    def test_lic_2_should_pass(self):
+        params = {"epsilon": np.deg2rad(20)}
+        points = [{"x": -2, "y": -2}, {"x": 1, "y": 1}, {"x": 2, "y": 4}]
+        num_points = len(points)
+
+        self.assertTrue(
+            cmv.check_lic_2(num_points, points, params),
+            "LIC 2: Passes because angle between vectors is less than 160deg.",
+        )
 
     # LIC 3 test cases
     def test_lic_3_should_fail_if_area_pts_less_than_param(self):

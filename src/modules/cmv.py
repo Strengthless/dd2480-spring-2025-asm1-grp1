@@ -32,8 +32,31 @@ def check_lic_1() -> bool:
     return False
 
 
-def check_lic_2() -> bool:
-    # TODO: Update the function signature and implementation
+def check_lic_2(
+    num_points: int, points: list[Coordinate], parameters: Parameters
+) -> bool:
+    if 0 > parameters["epsilon"] or parameters["epsilon"] >= np.pi:
+        return False
+
+    if num_points < 3:
+        return False
+
+    for i in range(num_points - 2):
+        point_1 = convert_to_np_point(points[i])
+        vertex = convert_to_np_point(points[i + 1])
+        point_2 = convert_to_np_point(points[i + 2])
+
+        if np_points_equal(point_1, vertex):
+            continue
+        if np_points_equal(point_2, vertex):
+            continue
+
+        angle = get_angle_from_np_points(point_1, vertex, point_2)
+
+        if float_compare(angle, np.pi - parameters["epsilon"]) == Comp_Type.LT:
+            return True
+        if float_compare(angle, np.pi + parameters["epsilon"]) == Comp_Type.GT:
+            return True
     return False
 
 
@@ -370,7 +393,7 @@ def get_cmv(
     return [
         check_lic_0(num_points, points, parameters),
         check_lic_1(),
-        check_lic_2(),
+        check_lic_2(num_points, points, parameters),
         check_lic_3(num_points, points, parameters),
         check_lic_4(num_points, points, parameters),
         check_lic_5(points),
