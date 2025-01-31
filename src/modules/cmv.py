@@ -27,8 +27,18 @@ def check_lic_0(num_points, points: list[Coordinate], parameters: Parameters) ->
     return False
 
 
-def check_lic_1() -> bool:
-    # TODO: Update the function signature and implementation
+def check_lic_1(num_points, points: list[Coordinate], parameters: Parameters) -> bool:
+    radius = parameters["radius1"]
+    if num_points < 3 or radius < 0:
+        return False
+
+    for i in range(num_points - 2):
+        a = convert_to_np_point(points[i])
+        b = convert_to_np_point(points[i + 1])
+        c = convert_to_np_point(points[i + 2])
+
+        if not can_three_np_points_fit_in_a_circle(a, b, c, radius):
+            return True
     return False
 
 

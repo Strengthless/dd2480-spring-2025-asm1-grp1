@@ -1,4 +1,5 @@
 import unittest
+import numpy as np
 from src.modules import cmv
 from src.modules.types import Coordinate
 
@@ -155,6 +156,15 @@ class CMVTests(unittest.TestCase):
             {"x": 5, "y": 5},
         ]
 
+        self.mock_points_triangles: list[Coordinate] = [
+            {"x": 3 - np.sqrt(27), "y": 4},
+            {"x": 3, "y": 1},
+            {"x": 3, "y": 7},
+            {"x": 6, "y": 4},
+            {"x": 4, "y": 10},
+            {"x": -2, "y": 4},
+        ]
+
         # Section C
         self.mock_points_c1: list[Coordinate] = self.mutate_points(
             self.create_zero_points(12),
@@ -233,6 +243,75 @@ class CMVTests(unittest.TestCase):
         points: list[Coordinate] = [{"x": 1.0, "y": 2.0}]
         num_points = len(points)
         self.assertFalse(cmv.check_lic_0(num_points, points, params))
+
+    # LIC 1 test cases
+    def test_lic_1_should_pass_if_collinear_points_cannot_be_contained_on_circle(self):
+        params = {
+            "radius1": np.sqrt(7.9) / 2,
+        }
+        points: list[Coordinate] = [
+            {"x": 1.0, "y": 1.0},
+            {"x": 2.0, "y": 2.0},
+            {"x": 3.0, "y": 3.0},
+        ]
+        num_points = len(points)
+
+        self.assertTrue(
+            cmv.check_lic_1(num_points, points, params),
+            "If False, Collinear point are currently contained on circle",
+        )
+
+    def test_lic_1_should_not_pass_if_collinear_points_can_be_contained_on_circle(
+        self,
+    ):
+        params = {"radius1": np.sqrt(8.1) / 2}
+        points: list[Coordinate] = [
+            {"x": 1.0, "y": 1.0},
+            {"x": 2.0, "y": 2.0},
+            {"x": 3.0, "y": 3.0},
+        ]
+        num_points = len(points)
+
+        self.assertFalse(
+            cmv.check_lic_1(num_points, points, params),
+            "If True, Collinear point cannot be contained on circle",
+        )
+
+    def test_lic_1_should_not_pass_if_points_can_be_contained_in_circle(
+        self,
+    ):
+        params = {"radius1": np.sqrt(5) * 2}
+        points = self.mock_points_triangles
+        num_points = len(points)
+
+        self.assertFalse(
+            cmv.check_lic_1(num_points, points, params),
+            "If True, the triangle cannot be contained on circle",
+        )
+
+    def test_lic_1_should_pass_if_points_cannot_be_contained_in_circle(
+        self,
+    ):
+        params = {"radius1": 6 / np.sqrt(2)}
+        points = self.mock_points_triangles
+        num_points = len(points)
+
+        self.assertTrue(
+            cmv.check_lic_1(num_points, points, params),
+            "If False, the triangle can be contained on circle",
+        )
+
+    def test_lic_1_should_not_pass_if_not_enough_points(
+        self,
+    ):
+        params = {"radius1": np.sqrt(8.1) / 2}
+        points: list[Coordinate] = [
+            {"x": 1.0, "y": 1.0},
+            {"x": 2.0, "y": 2.0},
+        ]
+        num_points = len(points)
+
+        self.assertFalse(cmv.check_lic_1(num_points, points, params))
 
     # LIC 3 test cases
     def test_lic_3_should_fail_if_area_pts_less_than_param(self):
