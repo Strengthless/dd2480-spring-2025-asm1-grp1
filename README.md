@@ -67,19 +67,19 @@ For this lab assignment, I mostly played the role of DevOps engineer & systems a
 
 ### Johan Nilsson
 
-- I wrote the solutions for LICs 5 to 9 with at least 3 tests for each. I wrote more than 400 lines of code and exclusively worked in modules/cmv.py and test.py.
+- I wrote the solutions for LICs 5 to 9 with at least 3 tests for each. I wrote more than 400 lines of code and exclusively worked in `src/modules/cmv.py` and `tests/test_cmv.py`.
 
 ### Marcello Krahforst
 
-I was mainly responsible for implementing the _FUV_ and _PUM_ component, thus I mostly modified the _modules/pum.py_ and _modules/fuv.py_ files and created respective tests for the implemented functions in _test.py_. Besides that, I occasionally reviewed code in Pull Requests and suggested changes or tested the code that was about to be merged into the main branch. Finally, I helped in documenting our way-of-working.
+I was mainly responsible for implementing the _FUV_ and _PUM_ component, thus I mostly modified the `src/modules/pum.py` and `src/modules/fuv.py` files and created respective tests for the implemented functions in `tests/test_pum.py` and `tests/test_fuv.py`. Besides that, I occasionally reviewed code in Pull Requests and suggested changes or tested the code that was about to be merged into the main branch. Finally, I helped in documenting our way-of-working.
 
 ### Arvid Hjort
 
-For this lab assignment I worked on the LIC algorithms in the CMV function. Specifically I have coded LIC 10, 11, 12, 13 and 14 and the test cases for those functions. This means that I worked in the modules/cmv.py and test.py
+For this lab assignment I worked on the LIC algorithms in the CMV function. Specifically I have coded LIC 10, 11, 12, 13 and 14 and the test cases for those functions. This means that I worked in the `src/modules/cmv.py` and `tests/test_cmv.py`.
 
 ### Olivia Aronsson
 
-Implemented LIC 0, 1, 2, 3, 4 and corresponding tests, thus working solely in modules/cmv.py and test/test_CMV.py. Participated in reviewing pull request and wrote outline for assessment of WoW in accordance with Essensce standard.
+Implemented LIC 0, 1, 2, 3, 4 and corresponding tests, thus working solely in `src/modules/cmv.py` and `tests/test_cmv.py`. Participated in reviewing pull request and wrote outline for assessment of WoW in accordance with Essensce standard.
 
 ## Way of working
 
