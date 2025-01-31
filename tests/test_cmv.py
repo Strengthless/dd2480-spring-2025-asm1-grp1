@@ -361,7 +361,7 @@ class CMVTests(unittest.TestCase):
             cmv.check_lic_2(num_points, points, params),
             "LIC 2: Passes because angle between vectors is less than 160deg.",
         )
-        
+
     # LIC 3 test cases
     def test_lic_3_should_fail_if_area_pts_less_than_param(self):
         params = {"area1": 0.6}
