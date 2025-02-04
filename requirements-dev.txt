@@ -1,4 +1,4 @@
-snapshottest
+snapshottest==1.0.0a1
 black
 flake8
 pre-commit
